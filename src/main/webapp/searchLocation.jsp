@@ -3,6 +3,7 @@
 <%@page import="com.cleaningmanagement.daoimpl.RequestDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,7 +57,7 @@ h1
 </style>
 </head>
 <body>
-<a href="viewrequest.jsp"><button><b>Back</b></button></a>
+<a href="viewRequest.jsp"><button><b>Back</b></button></a>
 <h1>RequestDetails</h1>
  <table class="center">
   
@@ -72,27 +73,23 @@ h1
     <th>Update</th>
     
   </tr>
-  <%  
-      List<Request> searchreq=(List<Request>)session.getAttribute("list");
-      for(int i=0;i<searchreq.size();i++)
-      {
-    	  Request req=searchreq.get(i);
-      
-   %>
+ 
+    <c:forEach items="${sessionScope.list}" var="request">
     <tr>
-     <td><%=req.getRequestId() %></td>
-     <td><%= req.getUser().getUserName() %></td>
-     <td><%= req.getEmployee().getEmpName() %></td>
-     <td><%= req.getCatogories() %></td>
-     <td><%= req.getLocation() %></td>
-     <td><%= req.getStatus() %></td>
-     <td><%=req.getEmployeestatus() %></td>
-     <td><%= req.getRequestDate() %></td>
      
-     <td><a href="UpdateRequestStatus.jsp?Rid=<%=req.getRequestId() %>"><button>UpdateStatus</button></a></td>
+     <td>${request.getRequestId() }</td>
+     <td>${request.getUser().getUserName() }</td>
+     <td>${request.getEmployee().getEmpName() }</td>
+     <td>${request.getCatogories() }</td>
+     <td>${request.getLocation() }</td>
+     <td>${request.getStatus() }</td>
+     <td>${request.getEmployeestatus() }</td>
+     <td>${request.getRequestDate() }</td>
+     
+     <td><a href="getRequestIdController?Rid=${request.getRequestId() }&empstatus=${request.getEmployeestatus() }"><button>UpdateStatus</button></a></td>
      
     </tr> 
-  <%} %>
+  </c:forEach>
  </table>
 </body>
 </html>

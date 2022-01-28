@@ -3,6 +3,7 @@
 <%@page import="com.cleaningmanagement.daoimpl.EmployeeDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,9 +44,7 @@ table tr:nth-child(even) {
 </head>
 <body>
 
-	<a href="adminhome.jsp"><button>
-			<b>HomePage</b>
-		</button></a>
+	<a href="adminHome.jsp"><button><b>HomePage</b></button></a>
 	<h1>Employee Details</h1>
 	<table class="center">
 		<tr>
@@ -55,19 +54,15 @@ table tr:nth-child(even) {
 			<th>Location</th>
 			<th>Status</th>
 		</tr>
-		<% 
-List<Employee> list=(List<Employee>)session.getAttribute("list");
-  for (int j = 0; j < list.size(); j++) {
-		Employee employee=list.get(j);
-%>
+<c:forEach items="${sessionScope.list}" var="employee">
 		<tr>
-			<td><%=employee.getEmpEmail() %></td>
-			<td><%=employee.getEmpName() %></td>
-			<td><%=employee.getEmpPassWord() %></td>
-			<td><%=employee.getLocation() %></td>
-			<td><%=employee.getStatus() %></td>
+			<td>${employee.getEmpEmail()}</td>
+			<td>${employee.getEmpName() }</td>
+			<td>${employee.getEmpPassWord()}</td>
+			<td>${employee.getLocation() }</td>
+			<td>${employee.getStatus() }</td>
 		</tr>
-		<%}%>
+</c:forEach>
 	</table>
 </body>
 </html>

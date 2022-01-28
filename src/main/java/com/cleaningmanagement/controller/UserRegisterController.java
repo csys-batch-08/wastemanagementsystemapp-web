@@ -15,27 +15,12 @@ import com.cleaningmanagement.daoimpl.UserDAOImpl;
 import com.cleaningmanagement.exception.FoundException;
 import com.cleaningmanagement.model.User;
 
-/**
- * Servlet implementation class UserRegisterController
- */
+
 @WebServlet("/UserRegisterController")
 public class UserRegisterController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UserRegisterController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 		String emailId=request.getParameter("emailid");
 		try {
 		UserDAOImpl userdao=new UserDAOImpl();
@@ -62,17 +47,12 @@ public class UserRegisterController extends HttpServlet {
 		{
 			HttpSession session=request.getSession();
 			session.setAttribute("email", e.getMessage3());
-			response.sendRedirect("userregister.jsp");
+			response.sendRedirect("userRegister.jsp");
 		}
 		
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+	
 
 }

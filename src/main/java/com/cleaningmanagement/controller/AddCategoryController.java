@@ -14,53 +14,30 @@ import javax.servlet.http.HttpSession;
 import com.cleaningmanagement.daoimpl.CategoryDAOImpl;
 import com.cleaningmanagement.model.CategoryDetails;
 
-/**
- * Servlet implementation class CategoryController
- */
+
 @WebServlet("/CategoryController")
 public class AddCategoryController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public AddCategoryController() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 		HttpSession session=request.getSession();
 		int weight = Integer.parseInt(request.getParameter("weight"));
 		String category = request.getParameter("category");
 		int amount = Integer.parseInt(request.getParameter("amount"));
 		CategoryDetails categoryDetails = new CategoryDetails(weight, category, amount);
-		CategoryDAOImpl categoryDAOImpl = new CategoryDAOImpl();
-		int k = categoryDAOImpl.insertCategoryDetails(categoryDetails);
+		CategoryDAOImpl categoryDaoImpl = new CategoryDAOImpl();
+		int k = categoryDaoImpl.insertCategoryDetails(categoryDetails);
 		if (k > 0) {
-			List<CategoryDetails> list = categoryDAOImpl.listdetails();
+			List<CategoryDetails> list = categoryDaoImpl.listdetails();
 			session.setAttribute("list", list);
-			response.sendRedirect("AddedListCategory.jsp");
+			response.sendRedirect("addedListCategory.jsp");
 		} else {
 			response.sendRedirect("category.jsp");
 		}
 
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+	
 
 }

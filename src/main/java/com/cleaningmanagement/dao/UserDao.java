@@ -1,8 +1,7 @@
 package com.cleaningmanagement.dao;
 
-import java.sql.ResultSet;
+import java.util.List;
 
-import com.cleaningmanagement.model.CategoryDetails;
 import com.cleaningmanagement.model.User;
 
 public interface UserDao {
@@ -11,7 +10,9 @@ public interface UserDao {
 	public int findUserId(User user);
 	public User findUser(int id);
 	public int findUser(String email);
-	public ResultSet userBill(User user);
+	public  List<List<Object>>  userBill(User user);
+	public List<List<Object>> showbill(User user);
+	public List<User> showUser();
 	public boolean rechargeWallet(User user);
 	public boolean updateWallet(User user, int amount);
 	public boolean refundWallet(User user, int amount);

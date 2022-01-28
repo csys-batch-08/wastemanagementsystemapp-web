@@ -12,6 +12,6 @@ public interface EmployeeDao {
 	public Employee findEmployee(String location);
 	public List<Employee> showEmployee();
 	
-	public ResultSet findEmployeeRequest(Employee employee);
+	public List<List<Object>> findEmployeeRequest(Employee employee);
 	public boolean updateEmployeeStatus(String Status,int reqId);
 }

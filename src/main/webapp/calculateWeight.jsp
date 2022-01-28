@@ -3,6 +3,7 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,30 +94,18 @@ h1{
 <body>
 <div class="header">
  <div class="headerMenu">
- 	  <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
+ 	 <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
 	  <a href="category.jsp"><button><b>AddCategory</b></button></a>
-	  <a href="viewrequest.jsp"><button><b>UpdateRequestStatus</b></button></a>
-	  <a href="CalculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
-	 
+	  <a href="listEmployeeController"><button><b>UpdateEmployeeStatus</b></button></a>
+	  <a href="viewRequestController"><button><b>UpdateRequestStatus</b></button></a>
+	  
  </div>
 </div>
  
-    <%
-   // SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-    String location=(String)session.getAttribute("location");
-    Date fromdate=(Date)(session.getAttribute("fromdate"));
-    Date todate=(Date)(session.getAttribute("todate"));
-    if(fromdate !=null && todate!=null && location!=null)
-    {
-    RequestDAOImpl requestdao=new RequestDAOImpl();
-	ResultSet rs=requestdao.CalculateAmount(location, fromdate, todate);
-	if(rs.next()){
-    %>
-    
-      <h1>Weight:<%=rs.getInt(1)%>Kg</h1>
-    
-   <%}%>
-   <%}%> 
+ <c:if test="${weight!=null }">
+ <h1>Weight:${weight}Kg</h1>
+ </c:if>
+ <c:remove var="weight" scope="session" />
    
 <div class="loginContent">
   <form action="CalculateWeight" method="post">
@@ -154,7 +143,7 @@ h1{
   
   document.getElementById("fromdate").setAttribute("min", today);
   document.getElementById("todate").setAttribute("min", today);
-  today = new Date();
+   today = new Date();
   dd = today.getDate();
   mm = today.getMonth() +1;
   yyyy = today.getFullYear();
@@ -167,7 +156,7 @@ h1{
 
   today = yyyy+'-'+mm+'-'+dd;
   document.getElementById("fromdate").setAttribute("max", today);
-  document.getElementById("todate").setAttribute("max", today);
+  document.getElementById("todate").setAttribute("max", today); 
   </script>
 </body>
 </html>

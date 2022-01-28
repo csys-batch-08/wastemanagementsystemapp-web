@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>UpdateRequestStatus</title>
+<title>ChangeEmployeeStatus</title>
 <style>
 body{
 background-image: url('images/background1.jpg');
@@ -56,20 +56,16 @@ background-image: url('images/background1.jpg');
 </style>
 </head>
 <body>
-<a href="adminhome.jsp"><button><b>HomePage</b></button></a>
-<% int requestId=Integer.parseInt(request.getParameter("Rid"));
-String EmployeeStatus=request.getParameter("empstatus");
-session.setAttribute("reqId", requestId);
-session.setAttribute("empstatus", EmployeeStatus);
-%>
+
 <div class="loginContent">
-<form action="UpdateRequestStatus" method="post">
-<h1>Request Status</h1>
-<input type="text" name="requeststatus" id="requeststatus" list="Status" autofocus>
-<datalist id="Status">
+<form action="EmpstatusChange" method="post">
+<h1>Status</h1>
+<input type="text" name="status" id="status" list="EmployeeStatus" autofocus >
+<datalist id="EmployeeStatus">
             <option disabled>--select--</option>
             <option value="pending">PENDING</option>
-            <option value="completed">COMPLETED</option>
+            <option value="inprogress">INPROGRESS</option>
+            <option value="done">DONE</option>
 </datalist>
 <div class="formBtn">
 <input type="submit" value="update">

@@ -1,6 +1,8 @@
 package com.cleaningmanagement.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,40 +11,30 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cleaningmanagement.daoimpl.AdminDAOImpl;
+import com.cleaningmanagement.daoimpl.RequestDAOImpl;
 import com.cleaningmanagement.exception.FoundException;
+import com.cleaningmanagement.model.Request;
 
-/**
- * Servlet implementation class UpdateRequestStatusController
- */
+
 @WebServlet("/UpdateRequestStatus")
 public class UpdateRequestStatusController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateRequestStatusController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		try {
+	
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		HttpSession session=request.getSession();
+		try {
 		String EmployeeStatus=(String)session.getAttribute("empstatus");
 		if(EmployeeStatus.equalsIgnoreCase("done") ) {
 		String status=request.getParameter("requeststatus");
-		int requestId=(int) session.getAttribute("reqId");
+		int requestId=(int) session.getAttribute("requestId");
+		RequestDAOImpl requestDaoImpl=new RequestDAOImpl();  
 		AdminDAOImpl admindao=new AdminDAOImpl();
 		int n=admindao.updateRequest(status, requestId);
 		if(n>0)
-		{
-			response.sendRedirect("viewrequest.jsp");
+		{   
+			List<Request> list=requestDaoImpl.showRequest();
+		    session.setAttribute("list", list);
+			response.sendRedirect("viewRequest.jsp");
 		}
 		}
 		else
@@ -51,18 +43,12 @@ public class UpdateRequestStatusController extends HttpServlet {
 		}
 		}catch(FoundException e)
 		{
-			HttpSession session=request.getSession();
-			session.setAttribute("status", e.getMessage5());
-			response.sendRedirect("viewrequest.jsp");
+		    session.setAttribute("status", e.getMessage5());
+			response.sendRedirect("viewRequest.jsp");
 		}
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+	
 
 }

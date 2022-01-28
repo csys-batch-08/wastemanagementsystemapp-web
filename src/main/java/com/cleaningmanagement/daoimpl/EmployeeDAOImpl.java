@@ -17,7 +17,7 @@ public class EmployeeDAOImpl implements EmployeeDao {
 		boolean flag = false;
 		Connection connection = ConnectionUtil.getConnection();
 		String query = "insert into  WMS_employee(emp_email,emp_name,emp_pwd,location) values(?,?,?,?)";
-		PreparedStatement preparedStatement;
+		PreparedStatement preparedStatement=null;
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, employee.getEmpEmail());
@@ -25,11 +25,14 @@ public class EmployeeDAOImpl implements EmployeeDao {
 			preparedStatement.setString(3, employee.getEmpPassWord());
 			preparedStatement.setString(4, employee.getLocation());
 			flag = preparedStatement.executeUpdate() > 0;
-
+           
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
+		 finally {
+				ConnectionUtil.close(connection, preparedStatement,null );
+			}
 		return flag;
 
 	}
@@ -38,33 +41,40 @@ public class EmployeeDAOImpl implements EmployeeDao {
 		Connection connection = ConnectionUtil.getConnection();
 		ResultSet resultSet = null;
 		Employee employee = null;
-		Statement statement;
+		PreparedStatement preparedStatement=null;
 		try {
-			String query = "select * from WMS_employee where emp_email='" + email + "' and emp_pwd='" + passWord + "'";
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(query);
+			String query = "select emp_id,emp_email,emp_name,emp_pwd,location,status from WMS_employee where emp_email=? and emp_pwd=?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, email);
+			preparedStatement.setString(2, passWord);
+			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				employee = new Employee(email, resultSet.getString(3), passWord, resultSet.getString(5),
 						resultSet.getString(6));
-
+				employee.setEmpId(resultSet.getInt(1));
 			}
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
+		 finally {
+				ConnectionUtil.close(connection, preparedStatement,resultSet );
+			}
 		return employee;
 
 	}
 
 	public int findEmpId(Employee employee) {
 		Connection connection = ConnectionUtil.getConnection();
-		String query = "select emp_id from WMS_employee where location= '" + employee.getLocation() + "'";
+		String query = "select emp_id from WMS_employee where location=?";
 		int id = 0;
-		Statement statement;
-		ResultSet resultSet;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
 		try {
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(query);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, employee.getLocation());
+			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				id = resultSet.getInt(1);
 			}
@@ -72,18 +82,22 @@ public class EmployeeDAOImpl implements EmployeeDao {
 
 			e.printStackTrace();
 		}
+		 finally {
+				ConnectionUtil.close(connection, preparedStatement,resultSet );
+			}
 		return id;
 	}
 
 	public Employee findEmployee(String location) {
 		Connection connection = ConnectionUtil.getConnection();
-		String query = "select * from WMS_employee where location= '" + location + "'";
+		String query = "select emp_id,emp_email,emp_name,emp_pwd,location,status from WMS_employee where location=?";
 		Employee employee = null;
-		Statement statement;
-		ResultSet resultSet;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
 		try {
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(query);
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, location );
+			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 
 				employee = new Employee(resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
@@ -93,6 +107,9 @@ public class EmployeeDAOImpl implements EmployeeDao {
 
 			e.printStackTrace();
 		}
+		 finally {
+				ConnectionUtil.close(connection, preparedStatement,resultSet );
+			}
 		return employee;
 
 	}
@@ -102,11 +119,11 @@ public class EmployeeDAOImpl implements EmployeeDao {
 		List<Employee> list = new ArrayList<Employee>();
 		String query = "select emp_id,emp_email,emp_name,emp_pwd,location,status from WMS_employee";
 		Employee employee = null;
-		Statement statement=null;
+		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
 		try {
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(query);
+			preparedStatement = connection.prepareStatement(query);
+			resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
 				employee = new Employee(resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
@@ -118,37 +135,55 @@ public class EmployeeDAOImpl implements EmployeeDao {
 			e.printStackTrace();
 		}
 		finally {
-			ConnectionUtil.close(connection, null,resultSet ,statement);
+			ConnectionUtil.close(connection, preparedStatement,resultSet);
 		}
 		return list;
 
 	}
 
-	public ResultSet findEmployeeRequest(Employee employee) {
+	public List<List<Object>> findEmployeeRequest(Employee employee) {
 		Connection connection = ConnectionUtil.getConnection();
-		EmployeeDAOImpl employeeDao = new EmployeeDAOImpl();
-		int empId = employeeDao.findEmpId(employee);
-
-		String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.request_date,r.employeestatus from WMS_request r join Category_details c on r.category=c.categories "
-				+ "where r.emp_id=" + empId;
-		Statement statement;
+	    String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.request_date,r.employeestatus from WMS_request r "
+	    		+ "join Category_details c on r.category=c.categories "
+				+ "where r.emp_id=?";
+		PreparedStatement preparedStatement=null;
 		ResultSet resultSet = null;
+		List<List<Object>> listObject=null;
+		List<Object> list=null;
 		try {
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(joinQuery);
-
+			preparedStatement = connection.prepareStatement(joinQuery);
+			preparedStatement.setInt(1, employee.getEmpId());
+			resultSet = preparedStatement.executeQuery();
+			listObject = new ArrayList<List<Object>>();
+            while(resultSet.next())
+            {
+            	list = new ArrayList<Object>();
+            	list.add(resultSet.getInt(1));
+            	list.add(resultSet.getInt(2));
+            	list.add(resultSet.getString(3));
+            	list.add(resultSet.getString(4));
+            	list.add(resultSet.getInt(5));
+            	list.add(resultSet.getInt(6));
+            	list.add(resultSet.getDate(7));
+            	list.add(resultSet.getString(8));
+            	listObject.add(list);
+            	
+            }
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-		return resultSet;
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,resultSet);
+		}
+		return listObject;
 	}
 
 	public boolean updatestatus(String status, String emailId) {
 		Connection connection = ConnectionUtil.getConnection();
 		String query = "update WMS_employee set status=?where emp_email=?";
 		boolean flag = false;
-		PreparedStatement preparedStatement;
+		PreparedStatement preparedStatement=null;
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, status);
@@ -158,6 +193,9 @@ public class EmployeeDAOImpl implements EmployeeDao {
 
 			e.printStackTrace();
 		}
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,null);
+		}
 
 		return flag;
 
@@ -166,7 +204,7 @@ public class EmployeeDAOImpl implements EmployeeDao {
 	public boolean updateEmployeeStatus(String status, int reqId) {
 		Connection connection = ConnectionUtil.getConnection();
 		String query = "update WMS_request set employeestatus=? where request_id=?";
-		PreparedStatement preparedStatement;
+		PreparedStatement preparedStatement=null;
 		boolean flag = false;
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -177,7 +215,9 @@ public class EmployeeDAOImpl implements EmployeeDao {
 
 			e.printStackTrace();
 		}
-
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,null);
+		}
 		return flag;
 
 	}

@@ -5,6 +5,7 @@
 <%@page import="com.cleaningmanagement.daoimpl.CategoryDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,19 +41,12 @@ table tr:nth-child(even) {
 </style>
 </head>
 <body>
- <a href="userhome.jsp"><button><b>HomePage</b></button></a>
+ <a href="userHome.jsp"><button><b>HomePage</b></button></a>
 <h1>Category Details</h1>
-<%User user=(User)session.getAttribute("CurrentUser"); 
- UserDAOImpl userdao=new UserDAOImpl();
-  List<User> userlist=userdao.showUser();
-for(User user1:userlist)
-{
-	if(user1.getUserEmail().equalsIgnoreCase(user.getUserEmail()))
-	{
-		user=user1;
-	}
-} %>
-<h3>AvailableBalance:&nbsp;<%=user.getWallet() %></h3>
+<c:if test="${wallet!=null }">
+   <h3>AvailableBalance:&nbsp;${wallet}</h3>
+</c:if>
+
 <table class="center">
  <tr>
    <th>Weight</th>
@@ -60,19 +54,14 @@ for(User user1:userlist)
    <th>Amount</th>
    <th>RaiseRequest</th>
  </tr>
- <% 
- CategoryDAOImpl CD = new CategoryDAOImpl();
-	List<CategoryDetails> listdetails = CD.listdetails();
-	for (int c = 0; c < listdetails.size(); c++) {
-		CategoryDetails cd=listdetails.get(c);
- %>
+ <c:forEach items="${sessionScope.list}" var="category">
  <tr>
-   <td><%=cd.getWeightInKg() %></td>
-   <td><%=cd.getCategory() %></td>
-   <td><%=cd.getAmount() %></td>
-   <td><a href="raiserequest.jsp?category=<%=cd.getCategory() %>"><button>RaiseRequest</button></a></td>
+   <td>${ category.getWeightInKg()}</td>
+   <td>${ category.getCategory() }</td>
+   <td>${ category.getAmount() }</td>
+   <td><a href="raiseRequest.jsp?category=${ category.getCategory() }"><button>RaiseRequest</button></a></td>
  </tr>
- <%}%>
+</c:forEach>
 </table>
 
 </body>

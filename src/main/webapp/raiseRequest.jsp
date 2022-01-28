@@ -1,6 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,37 +73,25 @@ left: 10px;
 </head>
 <body>
 <div class="tss">
-<a href="userhome.jsp"><button><b>HomePage</b></button></a>
+<a href="userHome.jsp"><button><b>HomePage</b></button></a>
 </div>
 <div class="loginContent">
-
-  <%
-	String error=(String)session.getAttribute("notfound"); 
-	if(error!=null){
-	%>
-	
-	<h1 class="text-center"><%=error %></h1>
-	<%session.removeAttribute("notfound"); %>
-	<%} %>
- <%
-	String insufficient=(String)session.getAttribute("insufficient"); 
-	if(insufficient!=null){
-	%>
-	
-	<h1  class="text-center"><%=insufficient %></h1>
-	<%session.removeAttribute("insufficient"); %>
-	<%} %>
+    <c:if test="${notfound!=null }">
+        <h1 class="text-center">${notfound}</h1>
+        </c:if>
+        <c:remove var="notfound" scope="session" />
+        
+    <c:if test="${insufficient!=null }">
+        <h1 class="text-center">${insufficient}</h1>
+        </c:if>
+        <c:remove var="insufficient" scope="session" />
  
- <%String category=request.getParameter("category");
- if(category==null){
- category=(String)session.getAttribute("category");
- }%>
+<c:set var="category" value="${param.category}" />
  
- 
- <form action="RasieRequestController" method="post">
+ <form action="RasieRequestController">
   <h1>Raise The Request</h1>
   <label for="category">Category</label>
-  <input type="text" name="category" id="category"  pattern="[a-zA-Z]+" title="category should be in letters" value = <%=category %> required><br><br>
+  <input type="text" name="category" id="category"  pattern="[a-zA-Z]+" title="category should be in letters" value ="${category }" required><br><br>
   
 
   <label for="location">Location</label> 

@@ -27,8 +27,8 @@ public class ConnectionUtil {
 
 	}
 
-	public static void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet,
-			Statement statement) {
+	public static void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet
+			) {
 		try {
 			if (resultSet != null) {
 				resultSet.close();
@@ -36,9 +36,7 @@ public class ConnectionUtil {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			if (statement != null) {
-				statement.close();
-			}
+			
 			if (connection != null) {
 				connection.close();
 			}

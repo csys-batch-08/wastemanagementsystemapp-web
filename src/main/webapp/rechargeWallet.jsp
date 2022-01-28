@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,20 +86,19 @@ h1.text-center {
 <body>
 <div class="header">
    <div class="headerMenu">
-  <a href="listcategory.jsp"><button><b>AvailableCategories</b></button></a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-  <a href="rechargewallet.jsp"><button><b>RechargeWallet</b></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-  <a href="deleterequest.jsp"><button><b>MyRequest</b></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+  <a href="viewCategoryController"><button><b>AvailableCategories</b></button></a>&nbsp; &nbsp; &nbsp; 
+  <a href="myRequestController"><button><b>MyRequest</b></button></a>&nbsp; &nbsp; &nbsp;
  </div>
 </div>
 <div class="loginContent">
-<% if(session.getAttribute("recharge")!=null){ 
-  Double amount=(Double)session.getAttribute("Amount");
- %>
-   <h1 class="text-center"><%=amount %>Rs&nbsp;Recharged Successfully</h1>
-   <%session.removeAttribute("recharge"); %>
-<%} %>
+<c:if test="${recharge!=null }" >
+   <c:if test="${amount!=null }" >
+     <h1 class="text-center">${amount}Rs&nbsp;Recharge Successfully</h1>
+   </c:if>
+</c:if>
+ <c:remove var="recharge" scope="session" />
 <div class="loginContent">
-<form action="RechargeWalletController" method="post">
+<form action="RechargeWalletController" >
 <h1>RechargeWallet</h1>
  
  <label for="amount"><b>Enter Amount</b></label>

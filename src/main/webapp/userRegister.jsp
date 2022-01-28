@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,12 +61,11 @@ h1{
 </style>
 </head>
 <body>
-<% String EmailId=(String)session.getAttribute("email");
-if(EmailId!=null){
-%>
-<h1><%=EmailId %></h1>
-<%session.removeAttribute("email"); %>
-<%} %>
+<c:if test="${email!=null }">
+        <h1>${email}</h1>
+</c:if>
+<c:remove var="email" scope="session" />
+
 
 <div class="loginContent">
   <form action="UserRegisterController" method="post">

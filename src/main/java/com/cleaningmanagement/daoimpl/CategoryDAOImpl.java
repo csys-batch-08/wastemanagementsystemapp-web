@@ -18,8 +18,9 @@ public class CategoryDAOImpl implements CategoryDao {
 		Connection connection = ConnectionUtil.getConnection();
 		String insertQuery = "insert into Category_details values(?,?,?)";
 		int i = 0;
+		PreparedStatement preparedStatement=null;
 		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+		    preparedStatement = connection.prepareStatement(insertQuery);
 			preparedStatement.setInt(1, categoryDetails.getWeightInKg());
 			preparedStatement.setString(2, categoryDetails.getCategory());
 			preparedStatement.setInt(3, categoryDetails.getAmount());
@@ -29,23 +30,32 @@ public class CategoryDAOImpl implements CategoryDao {
 		
 			e.printStackTrace();
 		}
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,null);
+		}
 		return i;
 
 	}
 
 	public CategoryDetails findAmount(String category) {
 		Connection connection = ConnectionUtil.getConnection();
-		String query = "select amount from Category_details where categories='" + category + "'";
+		String query = "select amount from Category_details where categories=?";
 		CategoryDetails categoryDetails = null;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
 		try {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+		    preparedStatement = connection.prepareStatement(query);
+		    preparedStatement.setString(1, category );
+		    resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				categoryDetails = new CategoryDetails(0, null, resultSet.getInt(1));
 			}
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+		}
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,resultSet);
 		}
 		return categoryDetails;
 
@@ -56,11 +66,11 @@ public class CategoryDAOImpl implements CategoryDao {
 		List<CategoryDetails> list = new ArrayList<CategoryDetails>();
 		String query = "select weight_kg,categories,amount from Category_details ";
 		CategoryDetails categoryDetails = null;
-		Statement statement=null;
+		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
 		try {
-		    statement = connection.createStatement();
-		    resultSet = statement.executeQuery(query);
+			preparedStatement= connection.prepareStatement(query);
+		    resultSet = preparedStatement.executeQuery();
 			while ( resultSet.next()) {
 				categoryDetails= new CategoryDetails( resultSet.getInt(1),  resultSet.getString(2),  resultSet.getInt(3));
 				list.add(categoryDetails);
@@ -70,7 +80,7 @@ public class CategoryDAOImpl implements CategoryDao {
 			e.printStackTrace();
 		}
 		finally {
-			ConnectionUtil.close(connection, null,resultSet ,statement);
+			ConnectionUtil.close(connection,preparedStatement ,resultSet);
 		}
 		return list;
 

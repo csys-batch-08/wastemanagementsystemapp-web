@@ -19,24 +19,10 @@ import com.cleaningmanagement.model.Employee;
  */
 @WebServlet("/EmployeeController")
 public class AddEmployeeController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public AddEmployeeController() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 		HttpSession session=request.getSession();
 		String emailId = request.getParameter("emailid");
 		String name = request.getParameter("name");
@@ -49,19 +35,12 @@ public class AddEmployeeController extends HttpServlet {
 			EmployeeDAOImpl employeeDAOImpl = new EmployeeDAOImpl();
 			List<Employee> list = employeeDAOImpl.showEmployee();
 			session.setAttribute("list", list);
-			response.sendRedirect("AddedListEmployee.jsp");
+			response.sendRedirect("addedListEmployee.jsp");
 		} else {
 			response.sendRedirect("employee.jsp");
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+	
 
 }

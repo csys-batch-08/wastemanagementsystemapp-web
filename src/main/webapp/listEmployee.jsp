@@ -3,6 +3,7 @@
 <%@page import="com.cleaningmanagement.daoimpl.EmployeeDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,12 +70,11 @@ table tr:nth-child(even) {
 <body>
 	<div class="header">
 		<div class="headerMenu">
-			<a href="employee.jsp"><button><b>Add Employee</b></button></a> 
-			<a href="category.jsp"><button><b>Add Category</b></button></a> 
-			
-			<a href="viewrequest.jsp"><button><b>updateRequestStatus</b></button></a>
-			<a href="CalculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
-					
+	       <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
+	       <a href="category.jsp"><button><b>AddCategory</b></button></a>
+	      
+	       <a href="viewRequestController"><button><b>UpdateRequestStatus</b></button></a>
+	       <a href="calculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
 				
 		</div>
 	</div>
@@ -89,22 +89,18 @@ table tr:nth-child(even) {
 			<th>Status</th>
 			<th>UpdateStatus</th>
 		</tr>
-		<% 
+   <c:forEach items="${sessionScope.list}" var="employee">
 		
-  List<Employee> list=(List<Employee>)session.getAttribute("list");
-  for (int j = 0; j < list.size(); j++) {
-		Employee employee=list.get(j);
-%>
 		<tr>
-			<td><%=employee.getEmpEmail() %></td>
-			<td><%=employee.getEmpName() %></td>
-			<td><%=employee.getEmpPassWord() %></td>
-			<td><%=employee.getLocation() %></td>
-			<td><%=employee.getStatus() %></td>
+			<td>${employee.getEmpEmail()}</td>
+			<td>${employee.getEmpName()} </td>
+			<td>${employee.getEmpPassWord()} </td>
+			<td>${employee.getLocation()}</td>
+			<td>${employee.getStatus()}</td>
 			<td><a
-				href="ChangeStatus.jsp?email=<%=employee.getEmpEmail() %>"><button>UpdateStatus</button></a></td>
+				href="getEmployeeEmailId?email=${employee.getEmpEmail()}"><button>UpdateStatus</button></a></td>
 		</tr>
-		<%}%>
+   </c:forEach>
 	</table>
 
 </body>

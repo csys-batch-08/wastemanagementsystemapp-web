@@ -3,6 +3,7 @@
 <%@page import="com.cleaningmanagement.daoimpl.RequestDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,14 +79,10 @@ table tr:nth-child(even) {
 
 <div class="header">
  <div class="headerMenu">
- 	<a href="employee.jsp"><button><b>AddEmployee</b></button></a>
+ 	  <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
 	  <a href="category.jsp"><button><b>AddCategory</b></button></a>
-	  
-	  <a href="viewrequest.jsp"><button><b>UpdateRequestStatus</b></button></a>
-	  <a href="CalculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
-	  <form action="listEmployeeController" method="post">
-      <input type="submit" value="UpdateEmployeeStatus" >
-</form>
+	  <a href="listEmployeeController"><button><b>UpdateEmployeeStatus</b></button></a>
+	  <a href="calculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
  </div>
 </div>
    <h1>RequestDetails</h1>
@@ -94,12 +91,10 @@ table tr:nth-child(even) {
 <input type="text" name="search" id="search" placeholder="search">
 <input type="submit" value="search">
 </form>
-<%String Status=(String)session.getAttribute("status");
-if(Status!=null){
-%>
-<h3><%=Status %></h3>
-<%session.removeAttribute("status"); %>
-<%} %>
+<c:if test="${status!=null }">
+<p>${status}<p>
+</c:if>
+<c:remove var="status" scope="session" />
  <table class="center">
   
   <tr>
@@ -114,27 +109,22 @@ if(Status!=null){
     <th>Update</th>
     
   </tr>
-  <%  RequestDAOImpl requestdao=new RequestDAOImpl();
-      List<Request> list=requestdao.showRequest();
-      for(int i=0;i<list.size();i++)
-      {
-    	  Request req=list.get(i);
-    
-  %>
+  <c:forEach items="${sessionScope.list}" var="request">
     <tr>
-     <td><%=req.getRequestId() %></td>
-     <td><%= req.getUser().getUserName() %></td>
-     <td><%= req.getEmployee().getEmpName() %></td>
-     <td><%= req.getCatogories() %></td>
-     <td><%= req.getLocation() %></td>
-     <td><%= req.getStatus() %></td>
-     <td><%=req.getEmployeestatus() %></td>
-     <td><%= req.getRequestDate() %></td>
      
-     <td><a href="UpdateRequestStatus.jsp?Rid=<%=req.getRequestId() %>&empstatus=<%=req.getEmployeestatus() %>"><button>UpdateStatus</button></a></td>
+     <td>${request.getRequestId() }</td>
+     <td>${request.getUser().getUserName() }</td>
+     <td>${request.getEmployee().getEmpName() }</td>
+     <td>${request.getCatogories() }</td>
+     <td>${request.getLocation() }</td>
+     <td>${request.getStatus() }</td>
+     <td>${request.getEmployeestatus() }</td>
+     <td>${request.getRequestDate() }</td>
+     
+     <td><a href="getRequestIdController?Rid=${request.getRequestId() }&empstatus=${request.getEmployeestatus() }"><button>UpdateStatus</button></a></td>
      
     </tr> 
-  <%} %>
+  </c:forEach>
  </table>
 </body>
 </html>

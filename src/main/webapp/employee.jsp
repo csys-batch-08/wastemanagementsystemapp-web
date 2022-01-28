@@ -85,13 +85,11 @@ background-image: url('images/background1.jpg');
 <body>
 <div class="header">
  <div class="headerMenu">
- 	  <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
+ 	 
 	  <a href="category.jsp"><button><b>AddCategory</b></button></a>
-	  <a href="viewrequest.jsp"><button><b>UpdateRequestStatus</b></button></a>
-	  <a href="CalculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
-	  <form action="listEmployeeController" method="post">
-      <input type="submit" value="UpdateEmployeeStatus" >
-</form>
+	  <a href="listEmployeeController"><button><b>UpdateEmployeeStatus</b></button></a>
+	  <a href="viewRequestController"><button><b>UpdateRequestStatus</b></button></a>
+	  <a href="calculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
  </div>
 </div>
 <div class="loginContent">

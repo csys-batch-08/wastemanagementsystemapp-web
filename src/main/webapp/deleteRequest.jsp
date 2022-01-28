@@ -1,9 +1,11 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.cleaningmanagement.daoimpl.UserDAOImpl"%>
 <%@page import="com.cleaningmanagement.model.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,39 +71,22 @@ right: 10px;
 <body>
 <div class="header">
    <div class="headerMenu">
-  <a href="listcategory.jsp"><button><b>AvailableCategories</b></button></a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-  <a href="rechargewallet.jsp"><button><b>RechargeWallet</b></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-  <a href="deleterequest.jsp"><button><b>MyRequest</b></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+  <a href="viewCategoryController"><button><b>AvailableCategories</b></button></a>&nbsp; &nbsp; &nbsp; 
+  <a href="rechargeWallet.jsp"><button><b>RechargeWallet</b></button></a>&nbsp; &nbsp; &nbsp;
+ 
  </div>
 </div>
 
-<%
+<c:if test="${deleterequest!=null }">
+   <h1>Successfully Deleted!!</h1>
+   <h2>Amount Refunded to your Wallet</h2>
+</c:if>
+ <c:remove var="deleterequest" scope="session" />
 
-if(session.getAttribute("deleterequest") != null ){%>
-	<h1>Successfully Deleted!!</h1>
-	<h2>Amount Refunded to your Wallet</h2>
-	<%session.removeAttribute("deleterequest"); %>
-<% }
-%>
-<%!User user;
-ResultSet rs;
-%>
-<% 
-  user=(User)session.getAttribute("CurrentUser");
- UserDAOImpl userdao = new UserDAOImpl();
-  rs= userdao.userBill(user);
- %>
-
-<%List<User> userlist=userdao.showUser();
-for(User user1:userlist)
-{
-	if(user1.getUserEmail().equalsIgnoreCase(user.getUserEmail()))
-	{
-		user=user1;
-	}
-} %>
 <div class="align">
-<h3>AvailableBalance:&nbsp;<%=user.getWallet() %></h3>
+<c:if test="${user!=null }">
+<h3>AvailableBalance:&nbsp;${user}</h3>
+</c:if>
 </div>
  <table class="center">
 		<tr>
@@ -115,19 +100,19 @@ for(User user1:userlist)
 			<th>Location</th>
 			<th>Delete</th>
 		</tr>
-		   <%while(rs.next()) {%>
+<c:forEach items="${sessionScope.list}" var="request">		   
         <tr>
-			<td><%=rs.getInt(1) %></td>
-			<td><%=rs.getString(2) %></td>
-			<td><%=rs.getString(3) %></td>
-			<td><%=rs.getInt(4) %></td>
-			<td><%=rs.getInt(5) %></td>
-			<td><%=rs.getString(6) %></td>
-			<td><%=rs.getDate(7) %></td>
-			<td><%=rs.getString(8) %></td>
-			<td><a href="Deleteserv?cat=<%=rs.getString(3) %>&loc=<%=rs.getString(8) %>&amount=<%=rs.getInt(5) %>"><button>Delete</button></a></td>
+			<td>${ request.get(0)}</td>
+			<td>${ request.get(1)}</td>
+			<td>${ request.get(2)}</td>
+			<td>${ request.get(3)}</td>
+			<td>${ request.get(4)}</td>
+			<td>${ request.get(5)}</td>
+			<td>${ request.get(6)}</td>
+			<td>${ request.get(7)}</td>
+			<td><a href="Deleteserv?category=${ request.get(2)}&location=${ request.get(7)}&amount=${ request.get(4)}"><button>Delete</button></a></td>
 		</tr>
-		<% } %>
+</c:forEach>	
 </table>
 </body>
 </html>

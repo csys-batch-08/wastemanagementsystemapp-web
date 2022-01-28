@@ -60,11 +60,8 @@ h1{
       <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
 	  <a href="category.jsp"><button><b>AddCategory</b></button></a>
 	  <a href="listEmployeeController"><button><b>UpdateEmployeeStatus</b></button></a>
-	  <a href="viewrequest.jsp"><button><b>UpdateRequestStatus</b></button></a>
-	  <a href="CalculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
-	  
-	  
-
+	  <a href="viewRequestController"><button><b>UpdateRequestStatus</b></button></a>
+	  <a href="calculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
  </div>
 </div>
 </body>

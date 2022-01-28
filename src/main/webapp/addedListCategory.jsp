@@ -3,6 +3,7 @@
 <%@page import="com.cleaningmanagement.daoimpl.CategoryDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,9 +40,7 @@ table tr:nth-child(even) {
 </style>
 </head>
 <body>
-	<a href="adminhome.jsp"><button>
-			<b>HomePage</b>
-		</button></a>
+	<a href="adminHome.jsp"><button><b>HomePage</b></button></a>
 	<h1>Category Details</h1>
 
 	<table class="center">
@@ -50,19 +49,13 @@ table tr:nth-child(even) {
 			<th>Category</th>
 			<th>Amount</th>
 		</tr>
-		<%
-		List<CategoryDetails> list = (List<CategoryDetails>) session.getAttribute("list");
-		for (int c = 0; c < list.size(); c++) {
-			CategoryDetails categoryDetails = list.get(c);
-		%>
+<c:forEach items="${sessionScope.list}" var="categoryDetails">
 		<tr>
-			<td><%=categoryDetails.getWeightInKg()%></td>
-			<td><%=categoryDetails.getCategory()%></td>
-			<td><%=categoryDetails.getAmount()%></td>
+			<td>${categoryDetails.getWeightInKg()}</td>
+			<td>${categoryDetails.getCategory()}</td>
+			<td>${categoryDetails.getAmount()}</td>
 		</tr>
-		<%
-		}
-		%>
+</c:forEach>
 	</table>
 
 </body>

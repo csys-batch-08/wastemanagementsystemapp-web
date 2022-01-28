@@ -1,10 +1,12 @@
+<%@page import="com.cleaningmanagement.model.Employee"%>
+<%@page import="com.cleaningmanagement.daoimpl.EmployeeDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>ChangeEmployeeStatus</title>
+<title>status</title>
 <style>
 body{
 background-image: url('images/background1.jpg');
@@ -56,18 +58,17 @@ background-image: url('images/background1.jpg');
 </style>
 </head>
 <body>
-<% int requestId=Integer.parseInt(request.getParameter("Rid"));
-session.setAttribute("RequestId", requestId);
-%>
+<a href="adminHome.jsp"><button><b>HomePage</b></button></a>
+
+
 <div class="loginContent">
-<form action="EmpstatusChange" method="post">
+<form action="UpdateEmployeeMessage" method="post">
 <h1>Status</h1>
-<input type="text" name="status" id="status" list="EmployeeStatus" autofocus >
+<input type="text" name="status" list="EmployeeStatus" autofocus>
 <datalist id="EmployeeStatus">
             <option disabled>--select--</option>
-            <option value="pending">PENDING</option>
-            <option value="inprogress">INPROGRESS</option>
-            <option value="done">DONE</option>
+            <option value="active">ACTIVE</option>
+            <option value="inactive">INACTIVE</option>
 </datalist>
 <div class="formBtn">
 <input type="submit" value="update">

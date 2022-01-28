@@ -13,6 +13,6 @@ public interface RequestDao {
 	public int findRequestID(int userId, String category, String location);
 	public boolean deleteRequest(int RequestId);
 	
-	public ResultSet CalculateAmount(String location, Date fromdate, Date todate);
+	public int CalculateAmount(String location, Date fromDate, Date toDate);
 	
 }

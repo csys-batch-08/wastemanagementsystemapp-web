@@ -26,7 +26,7 @@ public Admin() {
 	super();
 	
 }
-public Admin( String adminEmil, String adminPwd) {
+public Admin( String adminEmail, String adminPwd) {
 	super();
 	
 	this.adminEmail = adminEmail;

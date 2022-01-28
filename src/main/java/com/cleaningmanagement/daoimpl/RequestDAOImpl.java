@@ -22,25 +22,27 @@ public class RequestDAOImpl implements RequestDao {
 		boolean flag = false;
 		Connection connection = ConnectionUtil.getConnection();
 		String query = "insert into WMS_request (user_id,emp_id,category,location) values (?,?,?,?)";
-		PreparedStatement preparedStatement;
+		PreparedStatement preparedStatement=null;
 		try {
-			EmployeeDAOImpl empDao = new EmployeeDAOImpl();
-			UserDAOImpl userDao = new UserDAOImpl();
+			EmployeeDAOImpl employeeDaoImpl = new EmployeeDAOImpl();
+			UserDAOImpl userDaoImpl = new UserDAOImpl();
 			
-			int empId = empDao.findEmpId(request.getEmployee());
-			int userId = userDao.findUserId(request.getUser());
-			
-		    preparedStatement = connection.prepareStatement(query);
+			int empId = employeeDaoImpl.findEmpId(request.getEmployee());
+			int userId = userDaoImpl.findUserId(request.getUser());
+			preparedStatement = connection.prepareStatement(query);
 		    preparedStatement.setInt(1, userId);
 		    preparedStatement.setInt(2, empId);
 		    preparedStatement.setString(3, request.getCatogories());
 		    preparedStatement.setString(4, request.getLocation());
-
+           
 			flag = preparedStatement.executeUpdate() > 0;
-			preparedStatement.executeUpdate("commit");
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,null );
 		}
 		return flag;
 
@@ -49,21 +51,21 @@ public class RequestDAOImpl implements RequestDao {
 	public List<Request> showRequest() {
 		Connection connection = ConnectionUtil.getConnection();
 		List<Request> listRequest = new ArrayList<Request>();
-		String query = "select * from WMS_request";
+		String query = "select request_id,user_id,emp_id,category,location,requeststatus,employeestatus,request_date from WMS_request";
 		Request request = null;
-		Statement statement;
-		ResultSet resultSet;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
 		try {
-			statement = connection.createStatement();
-		    resultSet = statement.executeQuery(query);
-			UserDAOImpl userDao = new UserDAOImpl();
-			EmployeeDAOImpl employeedao = new EmployeeDAOImpl();
+			preparedStatement = connection.prepareStatement(query);
+		    resultSet = preparedStatement.executeQuery();
+			UserDAOImpl userDaoImpl = new UserDAOImpl();
+			EmployeeDAOImpl employeeDaoImpl = new EmployeeDAOImpl();
 			
 			while (resultSet.next()) {
 				
-				User user = userDao.findUser(resultSet.getInt(2));
+				User user = userDaoImpl.findUser(resultSet.getInt(2));
 			
-				Employee employee = employeedao.findEmployee(resultSet.getString(5));
+				Employee employee = employeeDaoImpl.findEmployee(resultSet.getString(5));
 				
 				request = new Request(resultSet.getInt(1), user, employee, resultSet.getString(4), resultSet.getString(5), resultSet.getString(6),
 						resultSet.getString(7), resultSet.getDate(8));
@@ -76,6 +78,9 @@ public class RequestDAOImpl implements RequestDao {
 			
 			e.printStackTrace();
 		}
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,resultSet);
+		}
 		return listRequest;
 
 	}
@@ -83,32 +88,38 @@ public class RequestDAOImpl implements RequestDao {
 	public List<Request> showRequest(String search) {
 		Connection connection = ConnectionUtil.getConnection();
 		List<Request> listRequest = new ArrayList<Request>();
-		String que = "select * from WMS_request where category like '%" + search.toLowerCase()
-				+ "%' or location like '%" + search.toLowerCase() + "%' or employeestatus  like '%"
-				+ search.toLowerCase() + "%' or requeststatus like '%" + search.toLowerCase() + "%'";
+		String query = "select request_id,user_id,emp_id,category,location,requeststatus,employeestatus,request_date from WMS_request "
+				+ "where category like ? or location like ? or employeestatus  like ? or "
+				+ "requeststatus like ?";
 		Request request = null;
-		Statement statement;
-		ResultSet resultSet;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
 		try {
-		    statement = connection.createStatement();
-		    resultSet = statement.executeQuery(que);
-			UserDAOImpl userDao = new UserDAOImpl();
-			EmployeeDAOImpl employeedao = new EmployeeDAOImpl();
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, "%" + search.toLowerCase() + "%");
+			preparedStatement.setString(2, "%" + search.toLowerCase() + "%");
+			preparedStatement.setString(3, "%" + search.toLowerCase() + "%");
+			preparedStatement.setString(4, "%" + search.toLowerCase() + "%");
+		    resultSet = preparedStatement.executeQuery();
+			UserDAOImpl userDaoImpl = new UserDAOImpl();
+			EmployeeDAOImpl employeeDaoImpl = new EmployeeDAOImpl();
 			
 			while (resultSet.next()) {
-                User user = userDao.findUser(resultSet.getInt(2));
-                Employee employee = employeedao.findEmployee(resultSet.getString(5));
+                User user = userDaoImpl.findUser(resultSet.getInt(2));
+                Employee employee = employeeDaoImpl.findEmployee(resultSet.getString(5));
                 request = new Request(resultSet.getInt(1), user, employee, resultSet.getString(4), resultSet.getString(5), resultSet.getString(6),
                 		resultSet.getString(7), resultSet.getDate(8));
                 listRequest.add(request);
 
-			}
+			} 
 
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
-
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,resultSet );
+		}
 		return listRequest;
 
 	}
@@ -117,8 +128,8 @@ public class RequestDAOImpl implements RequestDao {
 		Connection  connection = ConnectionUtil.getConnection();
 		String query = "select request_id from WMS_request where user_id=? and category=? and location=?";
 		int id = 0;
-		PreparedStatement preparedStatement;
-		ResultSet resultSet;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
 		try {
 		    preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, userId);
@@ -132,20 +143,28 @@ public class RequestDAOImpl implements RequestDao {
 			
 			e.printStackTrace();
 		}
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,resultSet );
+		}
 		return id;
 	}
 
 	public boolean deleteRequest(int RequestId) {
 		Connection connection = ConnectionUtil.getConnection();
-		String deleteQuery = "delete from WMS_request where request_id=" + RequestId;
+		String deleteQuery = "delete from WMS_request where request_id=?";
 		boolean flag = false;
-		Statement statement;
+		PreparedStatement preparedStatement=null;
 		try {
-		    statement = connection.createStatement();
-			flag = statement.executeUpdate(deleteQuery) > 0;
+			preparedStatement = connection.prepareStatement(deleteQuery);
+			preparedStatement.setInt(1, RequestId);
+			flag = preparedStatement.executeUpdate() > 0;
+			connection.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,null );
 		}
 		return flag;
 
@@ -153,29 +172,38 @@ public class RequestDAOImpl implements RequestDao {
 
 	
 
-	public ResultSet CalculateAmount(String location, Date fromDate, Date toDate) {
+	public int CalculateAmount(String location, Date fromDate, Date toDate) {
 		Connection connection = ConnectionUtil.getConnection();
 		String query = "select sum(c.weight_kg) from Category_details c join WMS_request r on c.categories=r.category  where r.location=? and r.requeststatus='completed' and r.request_date between ? and ? group by r.location ";
 		ResultSet resultSet = null;
-		PreparedStatement preparedStatement;
+		PreparedStatement preparedStatement=null;
+		int weight=0;
 		try {
 		    preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, location);
 			preparedStatement.setDate(2, new java.sql.Date(fromDate.getTime()));
 			preparedStatement.setDate(3, new java.sql.Date(toDate.getTime()));
 			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next())
+			{
+				weight=resultSet.getInt(1);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return resultSet;
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,resultSet);
+		}
+		return weight;
 
 	}
 
 	@Override
-	public ResultSet CalculateAmount(String location, java.sql.Date fromdate, java.sql.Date todate) {
+	public int CalculateAmount(String location, java.sql.Date fromDate, java.sql.Date toDate) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
+	
 }
