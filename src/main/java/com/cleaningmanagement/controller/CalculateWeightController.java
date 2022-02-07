@@ -30,7 +30,7 @@ public class CalculateWeightController extends HttpServlet {
 			Date todate = sdf.parse(request.getParameter("todate"));
 			RequestDaoImpl requestDao = new RequestDaoImpl();
 			int weight = requestDao.calculateWeight(location, fromdate, todate);
-			
+			int i=0;
 			if (weight != 0) {
 				session.setAttribute("weight", weight);
 				response.sendRedirect("calculateWeight.jsp");
