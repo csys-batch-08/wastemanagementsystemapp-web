@@ -1,129 +1,71 @@
 <%@page import="com.cleaningmanagement.model.Request"%>
 <%@page import="java.util.List"%>
-<%@page import="com.cleaningmanagement.daoimpl.RequestDAOImpl"%>
+<%@page import="com.cleaningmanagement.daoimpl.RequestDaoImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>updateStatus</title>
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  
-}
-th, td {
-  padding: 15px;
-}
-body{
-    
-    background-color:lightyellow;
-}
-
-table.center {
-  margin-left: auto; 
-  margin-right: auto;
-  width:100%
-}
-h1
-{ 
-  text-align:center;
-  color:red;
-}
-table tr:nth-child(even) {
-    background: #0000001a;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-
-.headerMenu {
-    display: flex;
-    justify-content: space-around;
-    background: aliceblue;
-    padding: 15px;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-    margin: 0px 20px;
-    border-radius: 3px;
-}
-.serach input {
-    padding: 10px;
-    font-size: 15px;
-    text-transform: capitalize;
-    font-weight: bold;
-}
-.serach {
-    text-align: right;
-    margin-bottom: 12px;
-}
-.headerMenu input {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="assets/css/viewrequest.css">
 </head>
 <body>
 
 <div class="header">
  <div class="headerMenu">
- 	  <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
-	  <a href="category.jsp"><button><b>AddCategory</b></button></a>
-	  <a href="listEmployeeController"><button><b>UpdateEmployeeStatus</b></button></a>
-	  <a href="calculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
+ 	  <a href="employee.jsp"><button><strong>AddEmployee</strong></button></a>
+	  <a href="category.jsp"><button><strong>AddCategory</strong></button></a>
+	  <a href="listEmployeeController"><button><strong>UpdateEmployeeStatus</strong></button></a>
+	  <a href="calculateWeight.jsp"><button><strong>CalculateWeight</strong></button></a>
+	  <a href="index.jsp"><button><strong>logOut</strong></button></a>
  </div>
 </div>
    <h1>RequestDetails</h1>
    <form action="SearchController" class="serach">
 <label for="search"></label>
-<input type="text" name="search" id="search" placeholder="search">
+<input type="text" name="search" id="search" placeholder="Search">
 <input type="submit" value="search">
 </form>
-<c:if test="${status!=null }">
-<p>${status}<p>
+
+
+<c:if test="${noresult!=null }">
+<h3>${noresult}</h3>
 </c:if>
-<c:remove var="status" scope="session" />
- <table class="center">
-  
+<c:remove var="noresult" scope="session" />
+<c:set var="count" value="1" />
+ <table  aria-describedby="View Request" class="center">
+ 
   <tr>
-    <th>RequestId</th>
+    <th>SerialNumber</th>
     <th>UserName</th>
     <th>EmployeeName</th>
     <th>Category</th>
     <th>Location</th>
     <th>RequestStatus</th>
-    <th>EmployeeStatus</th>
     <th>RequestDate</th>
+    <th>EmployeeStatus</th>
+    <th>Address</th>
     <th>Update</th>
     
   </tr>
-  <c:forEach items="${sessionScope.list}" var="request">
+  <c:forEach items="${requestScope.list}" var="request">
     <tr>
-     
-     <td>${request.getRequestId() }</td>
+     <td>${count}</td>
      <td>${request.getUser().getUserName() }</td>
      <td>${request.getEmployee().getEmpName() }</td>
      <td>${request.getCatogories() }</td>
      <td>${request.getLocation() }</td>
      <td>${request.getStatus() }</td>
+     <fmt:parseDate value="${request.getRequestDate() }" pattern="yyyy-MM-dd" var="requestDate" type="date"/>	
+     <td><fmt:formatDate pattern="dd/MM/yyyy" value="${requestDate}"/></td>
      <td>${request.getEmployeestatus() }</td>
-     <td>${request.getRequestDate() }</td>
-     
+     <td>${request.getAddress() }</td>
      <td><a href="getRequestIdController?Rid=${request.getRequestId() }&empstatus=${request.getEmployeestatus() }"><button>UpdateStatus</button></a></td>
-     
-    </tr> 
+    </tr>
+    <c:set var="count" value="${count+1}" /> 
   </c:forEach>
  </table>
 </body>

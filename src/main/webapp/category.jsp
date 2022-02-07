@@ -1,83 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html>
-<style>
-body{
-background-image: url('images/background1.jpg');
-    margin: 0px;
-}
-.loginContent {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.loginContent form {
-    background: white;
-    padding: 15px;
-    text-align: left;
-}
-.loginContent form label {
-    font-weight: bold;
-}
-.loginContent form h1 {
-    margin: 0px 0px 20px;
-    text-align: center;
-}
-.loginContent form input {
-    width: 95%;
-    border: none;
-    background: aliceblue;
-    padding: 10px;
-    margin: 10px 0px;
-}
-.loginContent form {
-    background: white;
-    padding: 15px;
-    text-align: left;
-    width:25%
-}
-.formBtn {
-    display: flex;
-    justify-content: center;
-}
-.formBtn input {
-    margin: 4px 4px;
-    width: auto !important;
-    padding: 10px 25px !important;
-    background: black !important;
-    color: white;
-    font-weight: bold;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-
-.headerMenu {
-    display: flex;
-    justify-content: space-around;
-    background: aliceblue;
-    padding: 15px;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-    margin: 0px 20px;
-    border-radius: 3px;
-}
-.headerMenu input {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-</style>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="assets/css/category.css">
 <head>
 <meta charset="ISO-8859-1">
 <title>CategoryDetails</title>
@@ -85,25 +10,26 @@ background-image: url('images/background1.jpg');
 <body>
 <div class="header">
  <div class="headerMenu">
- 	  <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
-	
-	  <a href="listEmployeeController"><button><b>UpdateEmployeeStatus</b></button></a>
-	  <a href="viewRequestController"><button><b>UpdateRequestStatus</b></button></a>
-	  <a href="calculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
+ 	  <a href="employee.jsp"><button><strong>AddEmployee</strong></button></a>
+	  <a href="listEmployeeController"><button><strong>UpdateEmployeeStatus</strong></button></a>
+	  <a href="viewRequestController"><button><strong>UpdateRequestStatus</strong></button></a>
+	  <a href="calculateWeight.jsp"><button><strong>CalculateWeight</strong></button></a>
+	  <a href="listCategoryController"><button><strong>UpdateCatgeory</strong></button></a>
+	  <a href="index.jsp"><button><strong>logOut</strong></button></a>
 	  
  </div>
 </div>
 <div class="loginContent">
-<form action="CategoryController" method = "post">
+<form action="CategoryController">
 <h1>Category Details</h1>
-<label for="weight"><b>Weight</b></label>
-<input type="text" name="weight" id="weight" pattern="[0-9]+" title="weight should be in positive value" required autofocus><br><br>
+<label for="weight"><strong>Weight</strong></label>
+<input type="text" name="weight" id="weight" pattern="[0-9]+" title="invalid weight" placeholder="Weight in Kg" required autofocus><br><br>
 
-<label for="category"><b>Category</b></label>
-<input type="text" name="category" id="category" pattern="[a-zA-Z]+" title="it should not contain numbers" required><br><br>
+<label for="category"><strong>Category</strong></label>
+<input type="text" name="category" id="category" pattern="[a-zA-Z]+" title="invalid category" placeholder=" Enter Category" required><br><br>
 
-<label for="amount"><b>Amount</b></label>
-<input type="text" name="amount" id="amount" pattern="[0-9]+" title="amount should be in positive value" required><br><br>
+<label for="amount"><strong>Amount</strong></label>
+<input type="text" name="amount" id="amount" pattern="[0-9]+" title="invalid amount" placeholder="Amount in Rs" required><br><br>
 
 <div class="formBtn">
 <input type="submit" value="Add">

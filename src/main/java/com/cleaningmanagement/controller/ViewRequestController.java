@@ -11,21 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.cleaningmanagement.daoimpl.RequestDAOImpl;
+import com.cleaningmanagement.daoimpl.RequestDaoImpl;
 import com.cleaningmanagement.model.Request;
 
 
 @WebServlet("/viewRequestController")
-public class viewRequestController extends HttpServlet {
+public class ViewRequestController extends HttpServlet {
 	
+	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		 HttpSession session=request.getSession();
-		 RequestDAOImpl requestDaoImpl=new RequestDAOImpl();
+		
+		 RequestDaoImpl requestDaoImpl=new RequestDaoImpl();
 	     List<Request> list=requestDaoImpl.showRequest();
-	     session.setAttribute("list", list);
+	     request.setAttribute("list", list);
 	     RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewRequest.jsp");
 	     requestDispatcher.forward(request, response);
+	     
 	}
 
 	

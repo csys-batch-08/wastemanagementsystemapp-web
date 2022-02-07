@@ -1,111 +1,37 @@
 <%@page import="java.sql.ResultSet"%>
-<%@page import="com.cleaningmanagement.daoimpl.RequestDAOImpl"%>
+<%@page import="com.cleaningmanagement.daoimpl.RequestDaoImpl"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>WeightCalculation</title>
-<style>
-body{
-background-image: url('images/background1.jpg');
-    margin: 0px;
-}
-.loginContent {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.loginContent form {
-    background: white;
-    padding: 15px;
-    text-align: left;
-}
-.loginContent form label {
-    font-weight: bold;
-}
-.loginContent form h1 {
-    margin: 0px 0px 7px;
-    text-align: center;
-}
-
-.loginContent form input {
-    width: 95%;
-    border: none;
-    background: aliceblue;
-    padding: 10px;
-    margin: 10px 0px;
-}
-.loginContent form {
-    background: white;
-    padding: 15px;
-    text-align: left;
-    width:25%
-}
-.formBtn {
-    display: flex;
-    justify-content: center;
-}
-.formBtn input {
-    margin: 4px 4px;
-    width: auto !important;
-    padding: 10px 25px !important;
-    background: black !important;
-    color: white;
-    font-weight: bold;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-
-.headerMenu {
-    display: flex;
-    justify-content: space-around;
-    background: aliceblue;
-    padding: 15px;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-    margin: 0px 20px;
-    border-radius: 3px;
-}
-h1{
-    text-align: center;
-    color: red;
-    font-weight: bold;}
-.headerMenu input {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="assets/css/calculateweight.css">
 </head>
 <body>
 <div class="header">
  <div class="headerMenu">
- 	 <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
-	  <a href="category.jsp"><button><b>AddCategory</b></button></a>
-	  <a href="listEmployeeController"><button><b>UpdateEmployeeStatus</b></button></a>
-	  <a href="viewRequestController"><button><b>UpdateRequestStatus</b></button></a>
-	  
+      <a href="employee.jsp"><button><strong>AddEmployee</strong></button></a>
+	  <a href="category.jsp"><button><strong>Category</strong></button></a>
+	  <a href="listEmployeeController"><button><strong>UpdateEmployeeStatus</strong></button></a>
+	  <a href="viewRequestController"><button><strong>UpdateRequestStatus</strong></button></a>
+	  <a href="listCategoryController"><button><strong>UpdateCatgeory</strong></button></a>
+	  <a href="index.jsp"><button><strong>logOut</strong></button></a>
  </div>
 </div>
  
  <c:if test="${weight!=null }">
- <h1>Weight:${weight}Kg</h1>
+ <h1 class="elementToFadeInAndOut">Weight:${weight}Kg</h1>
  </c:if>
  <c:remove var="weight" scope="session" />
+ 
+ <c:if test="${invalid!=null }">
+ <h1 class="elementToFadeInAndOut">We can't Calculate Weight Since the status is in pending</h1>
+ </c:if>
+ <c:remove var="invalid" scope="session" />
    
 <div class="loginContent">
   <form action="CalculateWeight" method="post">
@@ -119,7 +45,7 @@ h1{
   <input type="date" name="todate" id="todate" required ><br><br>
   
   <label for="location"><strong>Location</strong></label>
-  <input type="text" name="location" id="location" pattern="[a-zA-Z]+" title="invalid location" required ><br><br>
+  <input type="text" name="location" id="location" pattern="[a-zA-Z ]+" title="invalid location" required ><br><br>
   
   <div class="formBtn">
   <input type="submit" value="Calculate">
@@ -130,7 +56,7 @@ h1{
   <script>
   var today = new Date();
   var dd = today.getDate()-7;
-  var mm = today.getMonth()+1;
+  var mm = today.getMonth() +1;
   var yyyy = today.getFullYear();
   if(dd<10){
     dd='0'+dd

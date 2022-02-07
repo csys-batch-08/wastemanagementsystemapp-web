@@ -1,0 +1,39 @@
+@charset "ISO-8859-1";
+body {
+    background-image: url("../images/background1.jpg");
+    height: 100vh;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.headerMenu a button {
+    border: none;
+    padding: 10px;
+    background: black;
+    color: white;
+    margin: 0px 20px;
+    border-radius: 3px;
+}
+button{
+   color:blue;
+   background-color:lightyellow;
+}
+h1{
+ text-align:center;
+ color:red;
+ 
+}
+.headerMenu a button {
+    border: none;
+    padding: 10px;
+    background: black;
+    color: white;
+}
+
+.headerMenu {
+    display: flex;
+    justify-content: space-around;
+    background: aliceblue;
+    padding: 15px;
+}

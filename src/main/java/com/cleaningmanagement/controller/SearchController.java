@@ -11,20 +11,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.cleaningmanagement.daoimpl.RequestDAOImpl;
+import com.cleaningmanagement.daoimpl.RequestDaoImpl;
+import com.cleaningmanagement.exception.FoundException;
 import com.cleaningmanagement.model.Request;
 
 @WebServlet("/SearchController")
 public class SearchController extends HttpServlet {
 
+	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String search=request.getParameter("search");
-		RequestDAOImpl requestdao=new RequestDAOImpl();
-		List<Request> requestlist=requestdao.showRequest(search);
 		HttpSession session=request.getSession();
-		session.setAttribute("list", requestlist);
-		response.sendRedirect("searchLocation.jsp");
+		String search=request.getParameter("search");
+		RequestDaoImpl requestdao=new RequestDaoImpl();
+		List<Request> requestList=requestdao.showRequest(search);
+		try {
+		if(requestList.isEmpty()) {
+			session.setAttribute("list", requestList);
+			response.sendRedirect("searchLocation.jsp");
+		}
+		
+		else
+		{
+			throw new FoundException();
+		}
+		}catch(FoundException e)
+		{
+			session.setAttribute("noresult", e.noResultFound());
+			response.sendRedirect("viewRequest.jsp");
+		}
+		
+		
 	}
 
 	

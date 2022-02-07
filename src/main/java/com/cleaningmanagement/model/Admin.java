@@ -1,8 +1,9 @@
 package com.cleaningmanagement.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Admin {
+public class Admin implements Serializable {
   
    private String adminEmail;
    private String adminPwd;

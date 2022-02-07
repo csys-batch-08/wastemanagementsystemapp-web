@@ -10,7 +10,7 @@ public interface UserDao {
 	public int findUserId(User user);
 	public User findUser(int id);
 	public int findUser(String email);
-	public  List<List<Object>>  userBill(User user);
+	public  List<Object>  userBill(User user);
 	public List<List<Object>> showbill(User user);
 	public List<User> showUser();
 	public boolean rechargeWallet(User user);

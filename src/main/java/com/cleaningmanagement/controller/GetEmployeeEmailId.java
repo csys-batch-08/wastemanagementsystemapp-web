@@ -11,8 +11,9 @@ import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/getEmployeeEmailId")
-public class getEmployeeEmailId extends HttpServlet {
+public class GetEmployeeEmailId extends HttpServlet {
 	
+	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		String emailId=request.getParameter("email");

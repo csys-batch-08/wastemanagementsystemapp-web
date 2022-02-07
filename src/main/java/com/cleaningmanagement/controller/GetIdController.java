@@ -10,12 +10,15 @@ import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/getIdController")
-public class getIdController extends HttpServlet {
+public class GetIdController extends HttpServlet {
 	
+	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		int requestId=Integer.parseInt(request.getParameter("requestId"));
+		String requestStatus=request.getParameter("requestStatus");
 		session.setAttribute("requestId", requestId);
+		session.setAttribute("requestStatus", requestStatus);
 		response.sendRedirect("changeEmployeeStatus.jsp");
 		
 	}

@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.cleaningmanagement.daoimpl.RequestDAOImpl;
-import com.cleaningmanagement.daoimpl.UserDAOImpl;
+import com.cleaningmanagement.daoimpl.RequestDaoImpl;
+import com.cleaningmanagement.daoimpl.UserDaoImpl;
+import com.cleaningmanagement.exception.FoundException;
 import com.cleaningmanagement.model.User;
 
 
@@ -19,29 +20,41 @@ import com.cleaningmanagement.model.User;
 public class DeleteRequestController extends HttpServlet {
 	
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("CurrentUser");
-		UserDAOImpl userDaoImpl = new UserDAOImpl();
-		int userId = userDaoImpl.findUser(user.getUserEmail());
-		String category = request.getParameter("category");
-		String location = request.getParameter("location");
+		UserDaoImpl userDaoImpl = new UserDaoImpl();
+		int requestId = Integer.parseInt(request.getParameter("requestId"));
 		int amount = Integer.parseInt(request.getParameter("amount"));
-        RequestDAOImpl requestDaoImpl = new RequestDAOImpl();
-		int RequestId = requestDaoImpl.findRequestID(userId, category, location);
-		boolean b = requestDaoImpl.deleteRequest(RequestId);
+		String requestStatus = request.getParameter("status");
+		try {
+		if(!requestStatus.equalsIgnoreCase("cancel"))
+		{
+        boolean b = userDaoImpl.cancelRequest(requestId);
+        
 		if (b) {
 			userDaoImpl.refundWallet(user, amount);
 			session.setAttribute("user", user.getWallet() + amount);
-			List<List<Object>> list = userDaoImpl.userBill(user);
+			List<Object> list = userDaoImpl.userBill(user);
 			session.setAttribute("list", list);
+			session.setAttribute("amount", amount);
 			session.setAttribute("deleterequest", b);
 			response.sendRedirect("deleteRequest.jsp");
 		}
-
+		}
+		else
+		{
+			throw new FoundException();
+		}
+		}catch(FoundException e)
+		{
+			session.setAttribute("cancel", e.alreadyCancelled());
+			response.sendRedirect("deleteRequest.jsp");
+		}
 	}
 
 }

@@ -1,65 +1,30 @@
 <%@page import="com.cleaningmanagement.model.Request"%>
 <%@page import="java.util.List"%>
-<%@page import="com.cleaningmanagement.daoimpl.RequestDAOImpl"%>
+<%@page import="com.cleaningmanagement.daoimpl.RequestDaoImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>search</title>
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  
-}
-th, td {
-  padding: 15px;
-}
-table.center {
-  margin-left: auto; 
-  margin-right: auto;
-  width:100%
-}
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  
-}
-th, td {
-  padding: 15px;
-}
-body{
-    
-    background-color:lightyellow;
-}
-
-table.center {
-  margin-left: auto; 
-  margin-right: auto;
-  width:100%
-}
-h1
-{ 
-  text-align:center;
-  color:red;
-}
-table tr:nth-child(even) {
-    background: #0000001a;
-}
-h1
-{ 
-  text-align:center;
-  color:red;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="assets/css/searchlocation.css">
 </head>
 <body>
-<a href="viewRequest.jsp"><button><b>Back</b></button></a>
+<div class="header">
+ <div class="headerMenu">
+      <a href="employee.jsp"><button><strong>AddEmployee</strong></button></a>
+	  <a href="category.jsp"><button><strong>AddCategory</strong></button></a>
+	  <a href="listEmployeeController"><button><strong>UpdateEmployeeStatus</strong></button></a>
+	  <a href="viewRequestController"><button><strong>UpdateRequestStatus</strong></button></a>
+	  <a href="calculateWeight.jsp"><button><strong>CalculateWeight</strong></button></a>
+	  <a href="listCategoryController"><button><strong>UpdateCatgeory</strong></button></a>
+	  <a href="index.jsp"><button><strong>logOut</strong></button></a>
+ </div>
+</div>
 <h1>RequestDetails</h1>
- <table class="center">
+ <table aria-describedby="Request List" class="center">
   
   <tr>
     <th>RequestId</th>

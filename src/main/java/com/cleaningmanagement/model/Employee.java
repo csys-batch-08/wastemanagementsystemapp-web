@@ -1,8 +1,9 @@
 package com.cleaningmanagement.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Employee {
+public class Employee implements Serializable {
 	private int empId;
 	private String empEmail;
 	private String empName;
@@ -50,7 +51,7 @@ public class Employee {
 	}
 	public Employee() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 	public Employee(String empEmail, String empName, String empPassWord,String location) {
 		super();

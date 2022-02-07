@@ -11,8 +11,7 @@ public interface RequestDao {
 	public List<Request> showRequest();
 	public List<Request> showRequest(String search);
 	public int findRequestID(int userId, String category, String location);
-	public boolean deleteRequest(int RequestId);
-	
-	public int CalculateAmount(String location, Date fromDate, Date toDate);
+	public boolean deleteRequest(int requestId);
+	public int calculateWeight(String location, Date fromDate, Date toDate);
 	
 }

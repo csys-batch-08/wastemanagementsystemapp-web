@@ -1,67 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>AdminHome</title>
-<style>
-body {
-    background-image: url('images/background1.jpg');
-    height: 100vh;
-    margin: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-    margin: 0px 20px;
-    border-radius: 3px;
-}
-button{
-   color:blue;
-   background-color:lightyellow;
-}
-h1{
- text-align:center;
- color:red;
- 
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-
-.headerMenu {
-    display: flex;
-    justify-content: space-around;
-    background: aliceblue;
-    padding: 15px;
-}
-
-.headerMenu input {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="assets/css/adminhome.css">
 </head>
 <body>
 <div class="header">
  <h1>Welcome</h1>
  <div class="headerMenu">
-      <a href="employee.jsp"><button><b>AddEmployee</b></button></a>
-	  <a href="category.jsp"><button><b>AddCategory</b></button></a>
-	  <a href="listEmployeeController"><button><b>UpdateEmployeeStatus</b></button></a>
-	  <a href="viewRequestController"><button><b>UpdateRequestStatus</b></button></a>
-	  <a href="calculateWeight.jsp"><button><b>CalculateWeight</b></button></a>
+      <a href="employee.jsp"><button><strong>AddEmployee</strong></button></a>
+	  <a href="category.jsp"><button><strong>AddCategory</strong></button></a>
+	  <a href="listEmployeeController"><button><strong>UpdateEmployeeStatus</strong></button></a>
+	  <a href="viewRequestController"><button><strong>UpdateRequestStatus</strong></button></a>
+	  <a href="calculateWeight.jsp"><button><strong>CalculateWeight</strong></button></a>
+	  <a href="listCategoryController"><button><strong>UpdateCatgeory</strong></button></a>
+	  <a href="index.jsp"><button><strong>logOut</strong></button></a>
  </div>
 </div>
 </body>

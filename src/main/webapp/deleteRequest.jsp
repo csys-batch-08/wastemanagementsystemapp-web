@@ -1,117 +1,79 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="com.cleaningmanagement.daoimpl.UserDAOImpl"%>
+<%@page import="com.cleaningmanagement.daoimpl.UserDaoImpl"%>
 <%@page import="com.cleaningmanagement.model.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>DeleteRequest</title>
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  
-}
-th, td {
-  padding: 15px;
-  
-}
-body{
-    
-    background-color:lightyellow;
-}
-h1{
- text-align:center;
- color:red;
- 
-}
-table {
-  margin-left: auto; 
-  margin-right: auto;
-  width:100%;
-  margin-top:40px
-}
-table tr:nth-child(even) {
-    background: #0000001a;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-    margin: 0px 20px;
-    border-radius: 3px;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-
-.headerMenu {
-    display: flex;
-    justify-content: space-around;
-    background: aliceblue;
-    padding: 15px;
-}
-.align
-{
-position: absolute;
-top: 10px;
-right: 10px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="assets/css/deleterequest.css">
 </head>
 <body>
 <div class="header">
    <div class="headerMenu">
-  <a href="viewCategoryController"><button><b>AvailableCategories</b></button></a>&nbsp; &nbsp; &nbsp; 
-  <a href="rechargeWallet.jsp"><button><b>RechargeWallet</b></button></a>&nbsp; &nbsp; &nbsp;
- 
+  <a href="viewCategoryController"><button><strong>AvailableCategories</strong></button></a>&nbsp; &nbsp; &nbsp; 
+  <a href="rechargeWallet.jsp"><button><strong>RechargeWallet</strong></button></a>&nbsp; &nbsp; &nbsp;
+  <a href="myRequestController"><button><strong>MyRequest</strong></button></a>&nbsp; &nbsp; &nbsp;
+  <a href="index.jsp"><button><strong>logOut</strong></button></a>
  </div>
 </div>
 
 <c:if test="${deleterequest!=null }">
-   <h1>Successfully Deleted!!</h1>
-   <h2>Amount Refunded to your Wallet</h2>
+   <c:if test="${amount!=null }">
+   <h1 class="text-center elementToFadeInAndOut">Cancelled Successfully!</h1>
+   <h2 class="elementToFadeInAndOut">Amount&nbsp;${amount}Rs Refunded to your Wallet</h2>
+   </c:if>
 </c:if>
- <c:remove var="deleterequest" scope="session" />
+<c:remove var="deleterequest" scope="session" />
+
+<c:if test="${cancel!=null }">
+    <h1 class="text-center elementToFadeInAndOut">${cancel}</h1>
+</c:if>
+<c:remove var="cancel" scope="session" />
 
 <div class="align">
 <c:if test="${user!=null }">
-<h3>AvailableBalance:&nbsp;${user}</h3>
+<h3 class="elementToFadeInAndOut">AvailableBalance:&nbsp;${user}</h3>
+ <c:remove var="user" scope="session" />
 </c:if>
 </div>
- <table class="center">
+<c:set var="count" value="1" />
+ <table  aria-describedby="My Request" class="center">
+ 
 		<tr>
-			<th>RequestID</th>
-			<th>UserName</th>
+			<th>SerialNumber</th>
 			<th>Category</th>
 			<th>Weight</th>
 			<th>Amount</th>
 			<th>EmployeeName</th>
 			<th>RequestDate</th>
 			<th>Location</th>
-			<th>Delete</th>
+			<th>Address</th>
+			<th>RequestStatus</th>
+			<th>cancel</th>
 		</tr>
 <c:forEach items="${sessionScope.list}" var="request">		   
         <tr>
-			<td>${ request.get(0)}</td>
-			<td>${ request.get(1)}</td>
+			<td>${count}</td>
+		    <td>${ request.get(1)}</td>
 			<td>${ request.get(2)}</td>
 			<td>${ request.get(3)}</td>
 			<td>${ request.get(4)}</td>
-			<td>${ request.get(5)}</td>
+			<fmt:parseDate value="${request.get(5)}" pattern="yyyy-MM-dd" var="requestDate" type="date"/>	
+		    <td><fmt:formatDate pattern="dd/MM/yyyy" value="${requestDate}"/></td>
 			<td>${ request.get(6)}</td>
 			<td>${ request.get(7)}</td>
-			<td><a href="Deleteserv?category=${ request.get(2)}&location=${ request.get(7)}&amount=${ request.get(4)}"><button>Delete</button></a></td>
+			<td>${ request.get(8)}</td>
+			<td><a href="confirmCancel.jsp?requestId=${ request.get(0)}&category=${ request.get(1)}&weight=${ request.get(2)}&amount=${ request.get(3)}&location=${ request.get(6)}&status=${request.get(8)}">Cancel</a></td>
+	
 		</tr>
+		<c:set var="count" value="${count+1}" />
 </c:forEach>	
 </table>
 </body>

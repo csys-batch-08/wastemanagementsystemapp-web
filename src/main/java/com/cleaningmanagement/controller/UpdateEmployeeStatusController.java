@@ -11,27 +11,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.cleaningmanagement.daoimpl.EmployeeDAOImpl;
+import com.cleaningmanagement.daoimpl.EmployeeDaoImpl;
 import com.cleaningmanagement.model.Employee;
 
 
 @WebServlet("/UpdateEmployeeMessage")
 public class UpdateEmployeeStatusController extends HttpServlet {
 	
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		HttpSession session=request.getSession();
-		EmployeeDAOImpl employeeDAOImpl=new EmployeeDAOImpl();
+		EmployeeDaoImpl employeeDAOImpl=new EmployeeDaoImpl();
         String status = request.getParameter("status");
 	    String emailId=(String)session.getAttribute("email");
 		
 		boolean b = employeeDAOImpl.updatestatus(status, emailId);
+		try {
 		if (b) {
 			List<Employee> list=employeeDAOImpl.showEmployee();
-	        session.setAttribute("list", list);
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("listEmployee.jsp");
+	        request.setAttribute("list", list);
+	        RequestDispatcher requestDispatcher=request.getRequestDispatcher("listEmployee.jsp");
 			requestDispatcher.forward(request, response);
+
+	        
+			
+		}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 
 	}

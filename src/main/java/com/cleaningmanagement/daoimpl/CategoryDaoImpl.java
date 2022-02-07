@@ -13,7 +13,7 @@ import com.cleaningmanagement.model.CategoryDetails;
 import com.cleaningmanagement.model.User;
 import com.cleaningmanagement.util.ConnectionUtil;
 
-public class CategoryDAOImpl implements CategoryDao {
+public class CategoryDaoImpl implements CategoryDao {
 	public int insertCategoryDetails(CategoryDetails categoryDetails) {
 		Connection connection = ConnectionUtil.getConnection();
 		String insertQuery = "insert into Category_details values(?,?,?)";
@@ -63,7 +63,7 @@ public class CategoryDAOImpl implements CategoryDao {
 
 	public List<CategoryDetails> listdetails() {
 		Connection connection = ConnectionUtil.getConnection();
-		List<CategoryDetails> list = new ArrayList<CategoryDetails>();
+		List<CategoryDetails> list = new ArrayList<>();
 		String query = "select weight_kg,categories,amount from Category_details ";
 		CategoryDetails categoryDetails = null;
 		PreparedStatement preparedStatement=null;

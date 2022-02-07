@@ -11,22 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.cleaningmanagement.daoimpl.EmployeeDAOImpl;
+import com.cleaningmanagement.daoimpl.EmployeeDaoImpl;
 import com.cleaningmanagement.model.Employee;
 
 
 @WebServlet("/listEmployeesRequestController")
-public class listEmployeesRequestController extends HttpServlet {
+public class ListEmployeesRequestController extends HttpServlet {
 	
+	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 HttpSession session=request.getSession();
 		 Employee employee=(Employee)session.getAttribute("CurrentEmployee");
-		 System.out.println(employee);
-	     EmployeeDAOImpl employeeDaoImpl=new EmployeeDAOImpl();
+		 EmployeeDaoImpl employeeDaoImpl=new EmployeeDaoImpl();
 	     List<List<Object>> list=employeeDaoImpl.findEmployeeRequest(employee);
-	     session.setAttribute("list", list);
+	     request.setAttribute("list", list);
 	     RequestDispatcher requestDispatcher=request.getRequestDispatcher("showEmployeesRequest.jsp");
 	     requestDispatcher.forward(request, response);
+	     
 	   
 	}
 

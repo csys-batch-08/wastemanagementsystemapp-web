@@ -1,0 +1,35 @@
+@charset "ISO-8859-1";
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 15px;
+}
+
+body {
+	background-color: lightyellow;
+}
+
+h1 {
+	text-align: center;
+	color: red;
+}
+
+table {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%
+}
+
+table tr:nth-child(even) {
+	background: #0000001a;
+}
+
+td.buttonLink a {
+	text-decoration: none;
+	background: black;
+	padding: 10px;
+	color: white;
+}

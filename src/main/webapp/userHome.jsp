@@ -1,58 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>UserHomePage</title>
-<style>
-body {
-    background-image: url('images/background1.jpg');
-    height: 100vh;
-    margin: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-    margin: 0px 20px;
-    border-radius: 3px;
-}
-button{
-   color:blue;
-   background-color:lightyellow;
-}
-h1{
- text-align:center;
- color:red;
- 
-}
-.headerMenu a button {
-    border: none;
-    padding: 10px;
-    background: black;
-    color: white;
-}
-
-.headerMenu {
-    display: flex;
-    justify-content: space-around;
-    background: aliceblue;
-    padding: 15px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="assets/css/userhome.css">
 </head>
 <body>
 <div class="header">
 <h1>Welcome</h1>
    <div class="headerMenu">
-  <a href="viewCategoryController"><button><b>AvailableCategories</b></button></a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-  <a href="rechargeWallet.jsp"><button><b>RechargeWallet</b></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-  <a href="myRequestController"><button><b>MyRequest</b></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+  <a href="viewCategoryController"><button><strong>AvailableCategories</strong></button></a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <a href="rechargeWallet.jsp"><button><strong>RechargeWallet</strong></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+  <a href="myRequestController"><button><strong>MyRequest</strong></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+  <a href="index.jsp"><button><strong>logOut</strong></button></a>
  </div>
 </div>
 </body>

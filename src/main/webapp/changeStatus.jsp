@@ -1,70 +1,30 @@
 <%@page import="com.cleaningmanagement.model.Employee"%>
-<%@page import="com.cleaningmanagement.daoimpl.EmployeeDAOImpl"%>
+<%@page import="com.cleaningmanagement.daoimpl.EmployeeDaoImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>status</title>
-<style>
-body{
-background-image: url('images/background1.jpg');
-    margin: 0px;
-}
-.loginContent {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.loginContent form {
-    background: white;
-    padding: 15px;
-    text-align: left;
-}
-.loginContent form label {
-    font-weight: bold;
-}
-.loginContent form h1 {
-    margin: 0px 0px 7px;
-    text-align: center;
-}
-.loginContent form input {
-    width: 95%;
-    border: none;
-    background: aliceblue;
-    padding: 10px;
-    margin: 10px 0px;
-}
-.loginContent form {
-    background: white;
-    padding: 15px;
-    text-align: left;
-    width:25%
-}
-.formBtn {
-    display: flex;
-    justify-content: center;
-}
-.formBtn input {
-    margin: 4px 4px;
-    width: auto !important;
-    padding: 10px 25px !important;
-    background: black !important;
-    color: white;
-    font-weight: bold;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="assets/css/changestatus.css">
 </head>
 <body>
-<a href="adminHome.jsp"><button><b>HomePage</b></button></a>
-
-
+<div class="header">
+ <div class="headerMenu">
+      <a href="employee.jsp"><button><strong>AddEmployee</strong></button></a>
+	  <a href="category.jsp"><button><strong>AddCategory</strong></button></a>
+	  <a href="listEmployeeController"><button><strong>UpdateEmployeeStatus</strong></button></a>
+	  <a href="viewRequestController"><button><strong>UpdateRequestStatus</strong></button></a>
+	  <a href="calculateWeight.jsp"><button><strong>CalculateWeight</strong></button></a>
+	  <a href="listCategoryController"><button><strong>UpdateCatgeory</strong></button></a>
+	  <a href="index.jsp"><button><strong>logOut</strong></button></a>
+ </div>
+</div>
 <div class="loginContent">
 <form action="UpdateEmployeeMessage" method="post">
 <h1>Status</h1>
-<input type="text" name="status" list="EmployeeStatus" autofocus>
+<input type="text" name="status" list="EmployeeStatus" placeholder="Select Status" autofocus>
 <datalist id="EmployeeStatus">
             <option disabled>--select--</option>
             <option value="active">ACTIVE</option>

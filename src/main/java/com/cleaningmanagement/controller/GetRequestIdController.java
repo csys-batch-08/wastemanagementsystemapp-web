@@ -10,8 +10,9 @@ import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/getRequestIdController")
-public class getRequestIdController extends HttpServlet {
+public class GetRequestIdController extends HttpServlet {
 	
+	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session=request.getSession();

@@ -11,24 +11,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.cleaningmanagement.daoimpl.EmployeeDAOImpl;
+import com.cleaningmanagement.daoimpl.EmployeeDaoImpl;
 import com.cleaningmanagement.model.Employee;
 
 
 
 @WebServlet("/listEmployeeController")
-public class listEmployeeController extends HttpServlet {
+public class ListEmployeeController extends HttpServlet {
 	
 	
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession();
-		EmployeeDAOImpl employeeDAOImpl=new EmployeeDAOImpl();
+		try {
+		EmployeeDaoImpl employeeDAOImpl=new EmployeeDaoImpl();
         List<Employee> list=employeeDAOImpl.showEmployee();
-        session.setAttribute("list", list);
+        request.setAttribute("list", list);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("listEmployee.jsp");
         requestDispatcher.forward(request, response);
-		
+        }catch(Exception e)
+        {
+        	e.printStackTrace();
+        }
 	}
 
 }

@@ -12,7 +12,7 @@ import com.cleaningmanagement.dao.EmployeeDao;
 import com.cleaningmanagement.model.Employee;
 import com.cleaningmanagement.util.ConnectionUtil;
 
-public class EmployeeDAOImpl implements EmployeeDao {
+public class EmployeeDaoImpl implements EmployeeDao {
 	public boolean insertEmpDatabase(Employee employee) {
 		boolean flag = false;
 		Connection connection = ConnectionUtil.getConnection();
@@ -114,9 +114,36 @@ public class EmployeeDAOImpl implements EmployeeDao {
 
 	}
 
+	public List<Employee> showEmployee(Employee emp) {
+		Connection connection = ConnectionUtil.getConnection();
+		List<Employee> list = new ArrayList<>();
+		String query = "select emp_id,emp_email,emp_name,emp_pwd,location,status from WMS_employee";
+		Employee employee = null;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				employee = new Employee(resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+						resultSet.getString(5), resultSet.getString(6));
+				list.add(employee);
+             }
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionUtil.close(connection, preparedStatement,resultSet);
+		}
+		return list;
+
+	}
+	
 	public List<Employee> showEmployee() {
 		Connection connection = ConnectionUtil.getConnection();
-		List<Employee> list = new ArrayList<Employee>();
+		List<Employee> list = new ArrayList<>();
 		String query = "select emp_id,emp_email,emp_name,emp_pwd,location,status from WMS_employee";
 		Employee employee = null;
 		PreparedStatement preparedStatement=null;
@@ -143,9 +170,9 @@ public class EmployeeDAOImpl implements EmployeeDao {
 
 	public List<List<Object>> findEmployeeRequest(Employee employee) {
 		Connection connection = ConnectionUtil.getConnection();
-	    String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.request_date,r.employeestatus from WMS_request r "
+	    String joinQuery = "select r.request_id,u.user_name,r.category,r.location,r.address,c.weight_kg,c.amount,r.request_date,r.employeestatus,r.requeststatus from WMS_request r "
 	    		+ "join Category_details c on r.category=c.categories "
-				+ "where r.emp_id=?";
+	    		+ "join WMS_user u on u.user_id=r.user_id where r.emp_id=?";
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet = null;
 		List<List<Object>> listObject=null;
@@ -154,18 +181,21 @@ public class EmployeeDAOImpl implements EmployeeDao {
 			preparedStatement = connection.prepareStatement(joinQuery);
 			preparedStatement.setInt(1, employee.getEmpId());
 			resultSet = preparedStatement.executeQuery();
-			listObject = new ArrayList<List<Object>>();
+			listObject = new ArrayList<>();
+			
             while(resultSet.next())
             {
-            	list = new ArrayList<Object>();
-            	list.add(resultSet.getInt(1));
-            	list.add(resultSet.getInt(2));
-            	list.add(resultSet.getString(3));
-            	list.add(resultSet.getString(4));
-            	list.add(resultSet.getInt(5));
-            	list.add(resultSet.getInt(6));
-            	list.add(resultSet.getDate(7));
-            	list.add(resultSet.getString(8));
+            	list = new ArrayList<>();
+            	list.add(resultSet.getInt("request_id"));
+            	list.add(resultSet.getString("user_name"));
+            	list.add(resultSet.getString("category"));
+            	list.add(resultSet.getString("location"));
+            	list.add(resultSet.getString("address"));
+            	list.add(resultSet.getInt("weight_kg"));
+            	list.add(resultSet.getInt("amount"));
+            	list.add(resultSet.getDate("request_date"));
+            	list.add(resultSet.getString("employeestatus"));
+            	list.add(resultSet.getString("requeststatus"));
             	listObject.add(list);
             	
             }

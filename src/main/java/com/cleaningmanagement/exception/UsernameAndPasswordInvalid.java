@@ -1,9 +1,10 @@
 package com.cleaningmanagement.exception;
 
 public class UsernameAndPasswordInvalid extends Exception {
-    @Override
+    
+    static final String GETMESSAGE="UserName and PassWord Invalid";
 	public String getMessage() {
-		return "UserName and PassWord Invalid";
+		return GETMESSAGE;
 		
 	}
 }

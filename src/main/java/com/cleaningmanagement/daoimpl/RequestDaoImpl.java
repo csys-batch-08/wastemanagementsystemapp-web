@@ -1,14 +1,12 @@
 package com.cleaningmanagement.daoimpl;
 
 import java.sql.Connection;
-
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.cleaningmanagement.dao.RequestDao;
@@ -17,16 +15,15 @@ import com.cleaningmanagement.model.Request;
 import com.cleaningmanagement.model.User;
 import com.cleaningmanagement.util.ConnectionUtil;
 
-public class RequestDAOImpl implements RequestDao {
+public class RequestDaoImpl implements RequestDao {
 	public boolean insertRequestDetails(Request request) {
 		boolean flag = false;
 		Connection connection = ConnectionUtil.getConnection();
-		String query = "insert into WMS_request (user_id,emp_id,category,location) values (?,?,?,?)";
+		String query = "insert into WMS_request (user_id,emp_id,category,location,address) values (?,?,?,?,?)";
 		PreparedStatement preparedStatement=null;
 		try {
-			EmployeeDAOImpl employeeDaoImpl = new EmployeeDAOImpl();
-			UserDAOImpl userDaoImpl = new UserDAOImpl();
-			
+			EmployeeDaoImpl employeeDaoImpl = new EmployeeDaoImpl();
+			UserDaoImpl userDaoImpl = new UserDaoImpl();
 			int empId = employeeDaoImpl.findEmpId(request.getEmployee());
 			int userId = userDaoImpl.findUserId(request.getUser());
 			preparedStatement = connection.prepareStatement(query);
@@ -34,11 +31,11 @@ public class RequestDAOImpl implements RequestDao {
 		    preparedStatement.setInt(2, empId);
 		    preparedStatement.setString(3, request.getCatogories());
 		    preparedStatement.setString(4, request.getLocation());
-           
-			flag = preparedStatement.executeUpdate() > 0;
+		    preparedStatement.setString(5, request.getAddress());
+            flag = preparedStatement.executeUpdate() > 0;
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		finally {
@@ -50,16 +47,16 @@ public class RequestDAOImpl implements RequestDao {
 
 	public List<Request> showRequest() {
 		Connection connection = ConnectionUtil.getConnection();
-		List<Request> listRequest = new ArrayList<Request>();
-		String query = "select request_id,user_id,emp_id,category,location,requeststatus,employeestatus,request_date from WMS_request";
+		List<Request> listRequest = new ArrayList<>();
+		String query = "select request_id,user_id,emp_id,category,location,requeststatus,request_date,employeestatus,address from WMS_request";
 		Request request = null;
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
 		try {
 			preparedStatement = connection.prepareStatement(query);
 		    resultSet = preparedStatement.executeQuery();
-			UserDAOImpl userDaoImpl = new UserDAOImpl();
-			EmployeeDAOImpl employeeDaoImpl = new EmployeeDAOImpl();
+			UserDaoImpl userDaoImpl = new UserDaoImpl();
+			EmployeeDaoImpl employeeDaoImpl = new EmployeeDaoImpl();
 			
 			while (resultSet.next()) {
 				
@@ -68,9 +65,8 @@ public class RequestDAOImpl implements RequestDao {
 				Employee employee = employeeDaoImpl.findEmployee(resultSet.getString(5));
 				
 				request = new Request(resultSet.getInt(1), user, employee, resultSet.getString(4), resultSet.getString(5), resultSet.getString(6),
-						resultSet.getString(7), resultSet.getDate(8));
-
-				listRequest.add(request);
+						resultSet.getDate(7),resultSet.getString(8),resultSet.getString(9));
+                listRequest.add(request);
 
 			}
 
@@ -87,8 +83,8 @@ public class RequestDAOImpl implements RequestDao {
 
 	public List<Request> showRequest(String search) {
 		Connection connection = ConnectionUtil.getConnection();
-		List<Request> listRequest = new ArrayList<Request>();
-		String query = "select request_id,user_id,emp_id,category,location,requeststatus,employeestatus,request_date from WMS_request "
+		List<Request> listRequest = new ArrayList<>();
+		String query = "select request_id,user_id,emp_id,category,location,requeststatus,request_date,employeestatus,requeststatus from WMS_request "
 				+ "where category like ? or location like ? or employeestatus  like ? or "
 				+ "requeststatus like ?";
 		Request request = null;
@@ -101,14 +97,14 @@ public class RequestDAOImpl implements RequestDao {
 			preparedStatement.setString(3, "%" + search.toLowerCase() + "%");
 			preparedStatement.setString(4, "%" + search.toLowerCase() + "%");
 		    resultSet = preparedStatement.executeQuery();
-			UserDAOImpl userDaoImpl = new UserDAOImpl();
-			EmployeeDAOImpl employeeDaoImpl = new EmployeeDAOImpl();
+			UserDaoImpl userDaoImpl = new UserDaoImpl();
+			EmployeeDaoImpl employeeDaoImpl = new EmployeeDaoImpl();
 			
 			while (resultSet.next()) {
                 User user = userDaoImpl.findUser(resultSet.getInt(2));
                 Employee employee = employeeDaoImpl.findEmployee(resultSet.getString(5));
                 request = new Request(resultSet.getInt(1), user, employee, resultSet.getString(4), resultSet.getString(5), resultSet.getString(6),
-                		resultSet.getString(7), resultSet.getDate(8));
+			    resultSet.getDate(7),resultSet.getString(8),resultSet.getString(9));
                 listRequest.add(request);
 
 			} 
@@ -149,18 +145,18 @@ public class RequestDAOImpl implements RequestDao {
 		return id;
 	}
 
-	public boolean deleteRequest(int RequestId) {
+	public boolean deleteRequest(int requestId) {
 		Connection connection = ConnectionUtil.getConnection();
 		String deleteQuery = "delete from WMS_request where request_id=?";
 		boolean flag = false;
 		PreparedStatement preparedStatement=null;
 		try {
 			preparedStatement = connection.prepareStatement(deleteQuery);
-			preparedStatement.setInt(1, RequestId);
+			preparedStatement.setInt(1, requestId);
 			flag = preparedStatement.executeUpdate() > 0;
 			connection.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		finally {
@@ -172,9 +168,11 @@ public class RequestDAOImpl implements RequestDao {
 
 	
 
-	public int CalculateAmount(String location, Date fromDate, Date toDate) {
+	public int calculateWeight(String location, Date fromDate, Date toDate) {
 		Connection connection = ConnectionUtil.getConnection();
-		String query = "select sum(c.weight_kg) from Category_details c join WMS_request r on c.categories=r.category  where r.location=? and r.requeststatus='completed' and r.request_date between ? and ? group by r.location ";
+		String query = "select sum(c.weight_kg) from Category_details c join WMS_request r on c.categories=r.category  "
+				+ "where r.location=? and r.requeststatus='completed' "
+				+ "and r.request_date between ? and ? group by r.location ";
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement=null;
 		int weight=0;
@@ -189,7 +187,7 @@ public class RequestDAOImpl implements RequestDao {
 				weight=resultSet.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		finally {
@@ -200,10 +198,14 @@ public class RequestDAOImpl implements RequestDao {
 	}
 
 	@Override
-	public int CalculateAmount(String location, java.sql.Date fromDate, java.sql.Date toDate) {
-		// TODO Auto-generated method stub
+	public int calculateWeight(String location, java.sql.Date fromDate, java.sql.Date toDate) {
+
 		return 0;
 	}
 
+	
+	
+
+	
 	
 }

@@ -1,8 +1,9 @@
 package com.cleaningmanagement.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable{
     private String userEmail;
     private String userName;
     private String userPwd;
@@ -47,7 +48,7 @@ public class User {
 	}
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 	public User(String userEmail, String userName, String userPwd, String userAddress, long userMobileNo,
 			Double wallet) {

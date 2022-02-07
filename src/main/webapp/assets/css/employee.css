@@ -1,0 +1,91 @@
+@charset "ISO-8859-1";
+body{
+background-image: url("../images/background1.jpg");
+    margin: 0px;
+}
+.loginContent {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loginContent form {
+    background: white;
+    padding: 15px;
+    text-align: left;
+}
+.loginContent form label {
+    font-weight: bold;
+}
+.loginContent form h1 {
+    margin: 0px 0px 20px;
+    text-align: center;
+}
+.loginContent form input {
+    width: 95%;
+    border: none;
+    background: aliceblue;
+    padding: 10px;
+    margin: 10px 0px;
+}
+.loginContent form {
+    background: white;
+    padding: 15px;
+    text-align: left;
+    width:25%
+}
+.formBtn {
+    display: flex;
+    justify-content: center;
+}
+.formBtn input {
+    margin: 4px 4px;
+    width: auto !important;
+    padding: 10px 25px !important;
+    background: black !important;
+    color: white;
+    font-weight: bold;
+}
+.headerMenu a button {
+    border: none;
+    padding: 10px;
+    background: black;
+    color: white;
+}
+
+.headerMenu {
+    display: flex;
+    justify-content: space-around;
+    background: aliceblue;
+    padding: 15px;
+}
+.headerMenu a button {
+    border: none;
+    padding: 10px;
+    background: black;
+    color: white;
+    margin: 0px 20px;
+    border-radius: 3px;
+}
+.headerMenu input {
+    border: none;
+    padding: 10px;
+    background: black;
+    color: white;
+}
+.elementToFadeInAndOut {
+    -webkit-animation: fadeinout 0.5s linear forwards;
+    animation: fadeinout 5s linear forwards;
+}
+@-webkit-keyframes fadeinout {
+  30%,100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+@keyframes fadeinout {
+  70%,100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+h3{
+text-align:center;
+color:red;
+}
