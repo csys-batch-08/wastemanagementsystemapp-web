@@ -24,19 +24,16 @@ public class DeleteRequestController extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-
-		HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("CurrentUser");
 		UserDaoImpl userDaoImpl = new UserDaoImpl();
 		int requestId = Integer.parseInt(request.getParameter("requestId"));
 		int amount = Integer.parseInt(request.getParameter("amount"));
 		String requestStatus = request.getParameter("status");
 		try {
-		if(!requestStatus.equalsIgnoreCase("cancel"))
-		{
+		if(!requestStatus.equalsIgnoreCase("cancel")){
         boolean b = userDaoImpl.cancelRequest(requestId);
-        
-		if (b) {
+        if (b) {
 			userDaoImpl.refundWallet(user, amount);
 			session.setAttribute("user", user.getWallet() + amount);
 			List<Object> list = userDaoImpl.userBill(user);

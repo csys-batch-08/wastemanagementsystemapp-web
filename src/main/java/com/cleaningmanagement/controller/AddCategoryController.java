@@ -23,8 +23,7 @@ public class AddCategoryController extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		
-		int weight = Integer.parseInt(request.getParameter("weight"));
+	    int weight = Integer.parseInt(request.getParameter("weight"));
 		String category = request.getParameter("category");
 		int amount = Integer.parseInt(request.getParameter("amount"));
 		CategoryDetails categoryDetails = new CategoryDetails(weight, category, amount);
@@ -35,7 +34,6 @@ public class AddCategoryController extends HttpServlet {
 			request.setAttribute("list", list);
 			RequestDispatcher requestDispatcher=request.getRequestDispatcher("addedListCategory.jsp");
 			requestDispatcher.forward(request, response);
-			
 		} else {
 			response.sendRedirect("category.jsp");
 		}

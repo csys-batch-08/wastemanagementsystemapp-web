@@ -3,6 +3,7 @@ package com.cleaningmanagement.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,8 +33,9 @@ public class ChangeEmployeeStatusController extends HttpServlet {
 				if (b) {
 					Employee employee = (Employee) session.getAttribute("CurrentEmployee");
 					List<List<Object>> list = employeeDaoImpl.findEmployeeRequest(employee);
-					session.setAttribute("list", list);
-					response.sendRedirect("showEmployeesRequest.jsp");
+					request.setAttribute("list", list);
+					RequestDispatcher requestDispatcher=request.getRequestDispatcher("showEmployeesRequest.jsp");
+					requestDispatcher.forward(request, response);
 				}
 			} else {
 				throw new FoundException();

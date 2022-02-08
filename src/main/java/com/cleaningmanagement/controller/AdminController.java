@@ -25,7 +25,7 @@ public class AdminController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		HttpSession session = request.getSession();
 		String emailId = request.getParameter("emailid");
 		String password = request.getParameter("password");
 		Admin admin = null;
@@ -33,60 +33,51 @@ public class AdminController extends HttpServlet {
 		User user = null;
 		AdminDaoImpl ad = new AdminDaoImpl();
 		admin = ad.AdminDatabase(emailId, password);
-		boolean isValid = false;
+		EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
+		employee = employeeDao.validation(emailId, password);
+		UserDaoImpl userDao = new UserDaoImpl();
+		user = userDao.validateUser(emailId, password);
+		 boolean isValid=false;
 		try {
 			if (admin != null) {
-				isValid = true;
 				response.sendRedirect("adminHome.jsp");
-			} else {
-				EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
-				employee = employeeDao.validation(emailId, password);
-			}
-			if (employee != null) {
-				isValid = true;
+			} else if (employee != null) {
 				if (employee.getStatus().equals("active")) {
-					HttpSession session = request.getSession();
 					session.setAttribute("CurrentEmployee", employee);
 					response.sendRedirect("employeeHome.jsp");
 				} else {
-					throw new FoundException();
+					throw new UsernameAndPasswordInvalid();
 				}
-			}
-
-			else {
-				UserDaoImpl userDao = new UserDaoImpl();
-				user = userDao.validateUser(emailId, password);
-				if (user != null) {
-					isValid = true;
-					HttpSession session = request.getSession();
-					session.setAttribute("CurrentUser", user);
-					response.sendRedirect("userHome.jsp");
-				}
-			}
-
-			if (!isValid) {
+			} else if (user != null) {
+				session.setAttribute("CurrentUser", user);
+				response.sendRedirect("userHome.jsp");
+			} else {
+			     isValid=true;
 				throw new UsernameAndPasswordInvalid();
 			}
-
 		} catch (UsernameAndPasswordInvalid e) {
+			if(isValid) {
 			try {
-				HttpSession session = request.getSession();
-				session.setAttribute("invalid", e.getMessage());
+                session.setAttribute("invalid", e.getMessage());
 				response.sendRedirect("index.jsp");
 			} catch (Exception u) {
 				u.printStackTrace();
 			}
-		} catch (FoundException e) {
-			try {
-				HttpSession session = request.getSession();
-				session.setAttribute("inactive", e.getMessage4());
-				response.sendRedirect("index.jsp");
-			} catch (Exception l) {
-				l.printStackTrace();
 			}
-		} catch (Exception e) {
+			else {
+				try {
+				session.setAttribute("inactive", e.getMessage1() );
+				response.sendRedirect("index.jsp");
+				}
+				catch(Exception l)
+				{
+					l.printStackTrace();
+				}
+			}
+		}catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
+		
 
 	}
 

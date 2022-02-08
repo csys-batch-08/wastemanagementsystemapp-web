@@ -25,7 +25,7 @@ public class SearchController extends HttpServlet {
 		RequestDaoImpl requestdao=new RequestDaoImpl();
 		List<Request> requestList=requestdao.showRequest(search);
 		try {
-		if(requestList.isEmpty()) {
+		if(!requestList.isEmpty()) {
 			session.setAttribute("list", requestList);
 			response.sendRedirect("searchLocation.jsp");
 		}

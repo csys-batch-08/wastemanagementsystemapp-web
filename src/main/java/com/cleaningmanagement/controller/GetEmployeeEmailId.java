@@ -19,7 +19,6 @@ public class GetEmployeeEmailId extends HttpServlet {
 		String emailId=request.getParameter("email");
 		session.setAttribute("email", emailId);
 		response.sendRedirect("changeStatus.jsp");
-		
 	}
 
 	

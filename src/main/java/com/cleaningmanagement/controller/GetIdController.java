@@ -20,7 +20,6 @@ public class GetIdController extends HttpServlet {
 		session.setAttribute("requestId", requestId);
 		session.setAttribute("requestStatus", requestStatus);
 		response.sendRedirect("changeEmployeeStatus.jsp");
-		
 	}
 
 	

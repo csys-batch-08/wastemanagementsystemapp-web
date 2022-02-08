@@ -28,8 +28,7 @@
 	<h1>Category Details</h1>
 
 	<table  aria-describedby="Category List" class=" center">
-	
-		<tr>
+	    <tr>
 		    <th>SerialNumber</th>
 			<th>Weight</th>
 			<th>Category</th>

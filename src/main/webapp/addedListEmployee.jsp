@@ -26,8 +26,7 @@
 <c:set var="count" value="1" />
 	<h1>Employee Details</h1>
 	<table  aria-describedby="Employee List" class="center">
-	
-		<tr>
+	    <tr>
 		    <th>SerialNumber</th>
 			<th>EmailId</th>
 			<th>Name</th>

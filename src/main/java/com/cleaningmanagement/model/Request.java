@@ -1,9 +1,10 @@
 package com.cleaningmanagement.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Request {
+public class Request implements Serializable {
 	 private int requestId;
      private User user;
      private Employee employee;

@@ -20,8 +20,6 @@ public class ViewRequestController extends HttpServlet {
 	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
 		 RequestDaoImpl requestDaoImpl=new RequestDaoImpl();
 	     List<Request> list=requestDaoImpl.showRequest();
 	     request.setAttribute("list", list);

@@ -11,7 +11,6 @@ public class Employee implements Serializable {
 	private String location;
 	private String status;
 	
-	
 	public int getEmpId() {
 		return empId;
 	}
@@ -61,7 +60,6 @@ public class Employee implements Serializable {
 		this.empPassWord = empPassWord;
 		this.location=location;
 	}
-	
 	
 	public Employee(String empEmail, String empName, String empPassWord, String location, String status) {
 		super();

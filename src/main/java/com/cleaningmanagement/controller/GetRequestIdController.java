@@ -21,7 +21,6 @@ public class GetRequestIdController extends HttpServlet {
 		session.setAttribute("requestId", requestId);
 		session.setAttribute("empstatus", employeeStatus);
 		response.sendRedirect("updateRequestStatus.jsp");
-		
 	}
 
 	

@@ -52,8 +52,7 @@
   </div>
  </form>
  </div>
-  
-  <script>
+ <script>
   var today = new Date();
   var dd = today.getDate()-7;
   var mm = today.getMonth() +1;

@@ -16,9 +16,7 @@
 <c:set var="count" value="1" />
 	<h1>Request</h1>
 	<table  aria-describedby="Request List" class="center">
-	
-	
-		<tr>
+	    <tr>
 			<th>SerialNumber</th>
 			<th>UserName</th>
 			<th>Category</th>

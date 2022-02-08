@@ -31,7 +31,6 @@ public class AddEmployeeController extends HttpServlet {
 		EmployeeDaoImpl empDao = new EmployeeDaoImpl();
 		List<Employee> listEmployee = empDao.showEmployee();
 		boolean emailUsed = false;
-
 		try {
 			if (!listEmployee.isEmpty()) {
 				for (int i = 0; i < listEmployee.size(); i++) {
@@ -43,17 +42,15 @@ public class AddEmployeeController extends HttpServlet {
 					}
 
 				}
-			} 
-				boolean b = empDao.insertEmpDatabase(emp);
-				if (b) {
-					List<Employee> viewEmployee = empDao.showEmployee(emp);
-					request.setAttribute("list", viewEmployee);
-					RequestDispatcher requestDispatcher=request.getRequestDispatcher("addedListEmployee.jsp");
-					requestDispatcher.forward(request, response);
-					
-				}
+			}
+			boolean b = empDao.insertEmpDatabase(emp);
+			if (b) {
+				List<Employee> viewEmployee = empDao.showEmployee(emp);
+				request.setAttribute("list", viewEmployee);
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("addedListEmployee.jsp");
+				requestDispatcher.forward(request, response);
 
-			
+			}
 		} catch (FoundException e) {
 			if (emailUsed) {
 				session.setAttribute("alreadyused", e.getMessage3());

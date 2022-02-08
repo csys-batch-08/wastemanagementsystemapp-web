@@ -23,21 +23,17 @@ public class UpdateEmployeeStatusController extends HttpServlet {
 			throws ServletException, IOException {
 		
 		HttpSession session=request.getSession();
-		EmployeeDaoImpl employeeDAOImpl=new EmployeeDaoImpl();
+		EmployeeDaoImpl employeeDaoImpl=new EmployeeDaoImpl();
         String status = request.getParameter("status");
 	    String emailId=(String)session.getAttribute("email");
-		
-		boolean b = employeeDAOImpl.updatestatus(status, emailId);
+		boolean b = employeeDaoImpl.updatestatus(status, emailId);
 		try {
 		if (b) {
-			List<Employee> list=employeeDAOImpl.showEmployee();
+			List<Employee> list=employeeDaoImpl.showEmployee();
 	        request.setAttribute("list", list);
-	        RequestDispatcher requestDispatcher=request.getRequestDispatcher("listEmployee.jsp");
+	        RequestDispatcher requestDispatcher = request.getRequestDispatcher("listEmployee.jsp");
 			requestDispatcher.forward(request, response);
-
-	        
-			
-		}
+        }
 		}catch(Exception e)
 		{
 			e.printStackTrace();
