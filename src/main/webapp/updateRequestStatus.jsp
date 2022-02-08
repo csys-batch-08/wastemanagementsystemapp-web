@@ -27,7 +27,7 @@
 <div class="loginContent">
 <form action="UpdateRequestStatus" method="post">
 <h1>Request Status</h1>
-<input type="text" name="requeststatus" id="requeststatus" list="Status" placeholder="Select Status" autofocus>
+<input type="text" name="requeststatus" id="requeststatus" list="Status" aria-label="requeststatus" placeholder="Select Status" autofocus>
 <datalist id="Status">
             <option disabled>--select--</option>
             <option value="pending">PENDING</option>

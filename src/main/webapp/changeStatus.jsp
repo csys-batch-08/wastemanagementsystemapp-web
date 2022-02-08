@@ -24,7 +24,7 @@
 <div class="loginContent">
 <form action="UpdateEmployeeMessage" method="post">
 <h1>Status</h1>
-<input type="text" name="status" list="EmployeeStatus" placeholder="Select Status" autofocus>
+<input type="text" name="status" list="EmployeeStatus" aria-label="status" placeholder="Select Status" autofocus>
 <datalist id="EmployeeStatus">
             <option disabled>--select--</option>
             <option value="active">ACTIVE</option>
