@@ -28,7 +28,6 @@ public class ConnectionUtil {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			
 			if (connection != null) {
 				connection.close();
 			}

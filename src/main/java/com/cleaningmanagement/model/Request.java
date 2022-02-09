@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Request implements Serializable {
-	 private int requestId;
+	private static final long serialVersionUID = 1L;
+	
+	private int requestId;
      private User user;
      private Employee employee;
      private String catogories;

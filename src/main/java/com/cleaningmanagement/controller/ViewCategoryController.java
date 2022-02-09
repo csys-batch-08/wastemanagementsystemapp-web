@@ -19,6 +19,7 @@ import com.cleaningmanagement.model.User;
 
 @WebServlet("/viewCategoryController")
 public class ViewCategoryController extends HttpServlet {
+       private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)

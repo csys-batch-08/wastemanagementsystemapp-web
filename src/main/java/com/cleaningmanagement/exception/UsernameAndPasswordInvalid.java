@@ -1,8 +1,9 @@
 package com.cleaningmanagement.exception;
 
 public class UsernameAndPasswordInvalid extends Exception {
-    
-    static final String GETMESSAGE="UserName and PassWord Invalid";
+      private static final long serialVersionUID = 1L;
+      
+	static final String GETMESSAGE="UserName and PassWord Invalid";
 	@Override
 	public String getMessage() {
 		return GETMESSAGE;

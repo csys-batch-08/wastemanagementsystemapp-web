@@ -1,6 +1,7 @@
 package com.cleaningmanagement.exception;
 
 public class FoundException extends Exception {
+	private static final long serialVersionUID = 1L;
 	
 	static final String GETMESSAGE="Employee not found/inactive in the given location"; 
 	@Override

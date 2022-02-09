@@ -1,7 +1,7 @@
 package com.cleaningmanagement.controller;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.cleaningmanagement.daoimpl.AdminDaoImpl;
 import com.cleaningmanagement.daoimpl.EmployeeDaoImpl;
 import com.cleaningmanagement.daoimpl.UserDaoImpl;
-import com.cleaningmanagement.exception.FoundException;
+
 import com.cleaningmanagement.exception.UsernameAndPasswordInvalid;
 import com.cleaningmanagement.model.Admin;
 import com.cleaningmanagement.model.Employee;
@@ -21,7 +21,7 @@ import com.cleaningmanagement.model.User;
 
 @WebServlet("/adminController")
 public class AdminController extends HttpServlet {
-
+	private static final long serialVersionUID = 1L;
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

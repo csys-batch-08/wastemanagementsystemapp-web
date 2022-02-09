@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.cleaningmanagement.daoimpl.RequestDaoImpl;
 import com.cleaningmanagement.daoimpl.UserDaoImpl;
 import com.cleaningmanagement.exception.FoundException;
 import com.cleaningmanagement.model.User;
@@ -18,8 +17,9 @@ import com.cleaningmanagement.model.User;
 
 @WebServlet("/Deleteserv")
 public class DeleteRequestController extends HttpServlet {
-	
+	private static final long serialVersionUID = 1L;
 
+	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

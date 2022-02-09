@@ -25,6 +25,7 @@ import com.cleaningmanagement.model.User;
 
 @WebServlet("/RasieRequestController")
 public class RasieRequestController extends HttpServlet {
+        private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)

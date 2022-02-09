@@ -12,8 +12,8 @@
 <a href="index.jsp"><button><strong>logOut</strong></button></a>
  <c:if test="${cancel!=null }">
         <h2>${cancel}</h2>
-        </c:if>
-        <c:remove var="cancel" scope="session" />
+</c:if>
+<c:remove var="cancel" scope="session" />
 
 <div class="loginContent">
 <form action="EmpstatusChange" method="post">

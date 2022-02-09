@@ -11,7 +11,7 @@ background-image: url("../images/background1.jpg");
 }
 .loginContent form {
     background: white;
-    padding: 15px;
+    padding: 0px;
     text-align: left;
 }
 .loginContent form label {
@@ -88,4 +88,9 @@ background-image: url("../images/background1.jpg");
 h3{
 text-align:center;
 color:red;
+}
+.align{
+	height:90vh;
+	width:95%;
+	
 }

@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="assets/css/employee.css">
 </head>
 <body>
+<div class="align">
 <div class="header">
  <div class="headerMenu">
  	 
@@ -48,6 +49,7 @@
 <input type="submit" value="Add">
 </div>
 </form>
+</div>
 </div>
 </body>
 </html>

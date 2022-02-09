@@ -17,7 +17,8 @@ import com.cleaningmanagement.model.Employee;
 
 @WebServlet("/UpdateEmployeeMessage")
 public class UpdateEmployeeStatusController extends HttpServlet {
-	
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

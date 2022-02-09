@@ -1,7 +1,7 @@
 package com.cleaningmanagement.controller;
 
 import java.io.IOException;
-import java.sql.ResultSet;
+
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -18,7 +18,8 @@ import com.cleaningmanagement.model.User;
 
 @WebServlet("/userBillController")
 public class UserBillController extends HttpServlet {
-	
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 

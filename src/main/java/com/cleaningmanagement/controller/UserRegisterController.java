@@ -1,7 +1,6 @@
 package com.cleaningmanagement.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,6 +16,7 @@ import com.cleaningmanagement.model.User;
 
 @WebServlet("/UserRegisterController")
 public class UserRegisterController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

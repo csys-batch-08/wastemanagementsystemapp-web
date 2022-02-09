@@ -1,7 +1,7 @@
 package com.cleaningmanagement.dao;
 
 import java.sql.Date;
-import java.sql.ResultSet;
+
 import java.util.List;
 
 import com.cleaningmanagement.model.Request;

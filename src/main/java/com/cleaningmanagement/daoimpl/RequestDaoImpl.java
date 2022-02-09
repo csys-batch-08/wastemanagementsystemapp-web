@@ -75,8 +75,8 @@ public class RequestDaoImpl implements RequestDao {
 	public List<Request> showRequest(String search) {
 		Connection connection = ConnectionUtil.getConnection();
 		List<Request> listRequest = new ArrayList<>();
-		String query = "select request_id,user_id,emp_id,category,location,requeststatus,request_date,employeestatus,requeststatus from WMS_request "
-				+ "where category like ? or location like ? or employeestatus  like ? or " + "requeststatus like ?";
+		String query = "select request_id,user_id,emp_id,category,location,requeststatus,request_date,employeestatus,requeststatus "
+				+ "from WMS_request where category like ? or location like ? or employeestatus  like ? or requeststatus like ?";
 		Request request = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;

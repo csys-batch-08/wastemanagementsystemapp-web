@@ -4,13 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.cleaningmanagement.dao.CategoryDao;
 import com.cleaningmanagement.model.CategoryDetails;
-import com.cleaningmanagement.model.User;
+
 import com.cleaningmanagement.util.ConnectionUtil;
 
 public class CategoryDaoImpl implements CategoryDao {
